@@ -1,32 +1,22 @@
 # Use the official ROS 2 Foxy base image
-FROM ros:foxy-ros-base
+FROM osrf/ros2:devel
 
 # Set up environment
-ENV LANG=C.UTF-8
-ENV LC_ALL=C.UTF-8
-
-# Install necessary tools: colcon, rosdep, and vcs
-RUN apt-get update && \
-    apt-get install -y \
-    python3-colcon-common-extensions \
-    python3-rosdep \
-    python3-vcstool \
-    git \
-    && rm -rf /var/lib/apt/lists/*
-
-# Initialize and update rosdep
-RUN rosdep update
+#ENV LANG=C.UTF-8
+#ENV LC_ALL=C.UTF-8
 
 # Create a workspace
 WORKDIR /f1tenth_ws
 RUN colcon build
 
 # Intall VESC Driver
-RUN cd src/ && \
+RUN mkdir src && \ 
+    cd src && \
     git clone https://github.com/ros-drivers/transport_drivers.git && \
+    cd /f1tenth_ws && \
+    rosdep update && \
     rosdep install --from-paths src --ignore-src -r -y && \
-    colcon build && \
-    git clone https://github.com/f1tenth/vesc.git && \
+    colcon build
     
 # Source the setup script. First we need to change from sh to bash to be able to source.
 SHELL ["/bin/bash", "-c"] 
