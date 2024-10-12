@@ -1,5 +1,5 @@
 # Use the official ROS 2 Foxy base image
-FROM osrf/ros:foxy-desktop
+FROM ros:foxy-ros-base
 
 # Set up environment
 #ENV LANG=C.UTF-8
