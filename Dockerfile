@@ -14,28 +14,24 @@ RUN apt-get update && \
     git \
     && rm -rf /var/lib/apt/lists/*
 
-# Initialize rosdep
-RUN rosdep init && \
-    rosdep update
+# Initialize and update rosdep
+RUN rosdep update
 
 # Create a workspace
-# WORKDIR /ros2_ws
-RUN mkdir -p f1tenth_ws/src && \
-    cd f1tenth_ws && \
-    colcon build
+WORKDIR /f1tenth_ws
+RUN colcon build
 
-RUN cd src && \
-    git clone https://github.com/f1tenth/f1tenth_system.git && \
-    git submodule update --init --force --remote
-
-RUN cd $HOME/f1tenth_ws && \
-    rosdep update && \
-    rosdep install --from-paths src -i -y && \
-    colcon build
-
+# Intall VESC Driver
+RUN cd src/ && \
+    git clone https://github.com/ros-drivers/transport_drivers.git && \
+    rosdep install --from-paths src --ignore-src -r -y && \
+    colcon build && \
+    git clone https://github.com/f1tenth/vesc.git && \
+    
 # Source the setup script. First we need to change from sh to bash to be able to source.
 SHELL ["/bin/bash", "-c"] 
-RUN echo "source /f1tenth_ws/install/setup.bash" >> ~/.bashrc
+RUN echo "source install/setup.bash" >> ~/.bashrc
+#RUN echo "source /f1tenth_ws/install/setup.bash" >> ~/.bashrc 
 
 # Set the default command to launch a shell
 CMD ["bash"]
