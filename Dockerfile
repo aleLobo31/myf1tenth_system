@@ -35,30 +35,10 @@ RUN wget https://github.com/chriskohlhoff/asio/archive/asio-1-12-2.tar.gz && \
 
 RUN rosdep update --include-eol-distros && rosdep install --from-paths src -i -y --skip-keys="serial message_generation tf catkin roscpp message_runtime nodelet roslint"
 
-#RUN sudo apt-get install libserial-dev
+RUN sudo apt-get install ros-foxy-catkin ros-foxy-tf ros-foxy-message-generation ros-foxy-serial ros-foxy-roscpp ros-foxy-message_runtime ros-foxy-nodelet ros-foxy-roslint
 
-# Install ROS 1 Noetic (for ROS 1 dependencies)
-RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros1-latest.list' && \
-    apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654 && \
-    apt-get update && apt-get install -y \
-    ros-noetic-ros-base \
-    ros-noetic-catkin \
-    ros-noetic-serial \
-    ros-noetic-message-generation \
-    ros-noetic-tf \
-    ros-noetic-roscpp \
-    ros-noetic-message-runtime \
-    ros-noetic-nodelet \
-    ros-noetic-roslint
-
-# Source ROS 1 and Ros 2 setup in bashrc
-RUN echo "source /opt/ros/$ROS1_DISTRO/setup.bash" >> ~/.bashrc
-RUN echo "source /opt/ros/$ROS2_DISTRO/setup.bash" >> ~/.bashrc
-
-# Install ros1_bridge
-RUN apt-get update && apt-get install -y \
-    ros-foxy-ros1-bridge \
-    && rm -rf /var/lib/apt/lists/*
+# Source the setup script
+RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
 
 # Set the entrypoint to run the container in a bash shell
 CMD ["/bin/bash"]
