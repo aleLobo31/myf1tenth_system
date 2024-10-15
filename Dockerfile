@@ -17,28 +17,6 @@ RUN apt-get update && apt-get install -y \
     libbullet-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Install ROS1
-RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' && \
-    curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add - && \
-    apt-get update && \ 
-    apt install ros-noetic-ros-base && \
-    echo "source /opt/ros/$ROS1_DISTRO/setup.bash" >> ~/.bashrc && \
-    apt install -y python3-rosinstall python3-rosinstall-generator python3-wstool \
-    ros-noetic-catkin \
-    ros-noetic-serial \
-    ros-noetic-message-generation \
-    ros-noetic-tf \
-    ros-noetic-roscpp \
-    ros-noetic-message-runtime \
-    ros-noetic-nodelet \
-    ros-noetic-roslint \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install ros1_bridge
-RUN apt-get update && apt-get install -y \
-    ros-foxy-ros1-bridge \
-    && rm -rf /var/lib/apt/lists/*
-
 # Create a workspace directory
 WORKDIR /root/f1tenth_ws/src
 
@@ -57,6 +35,28 @@ RUN wget https://github.com/chriskohlhoff/asio/archive/asio-1-12-2.tar.gz && \
    
 # Install the associated dependencies
 RUN rosdep update --include-eol-distros && rosdep install --from-paths src -i -y --skip-keys="serial message_generation tf catkin roscpp message_runtime nodelet roslint”
+
+# Install ROS1
+RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' && \
+    curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add - && \
+    apt-get update && \ 
+    apt install -y ros-noetic-ros-base && \
+    echo "source /opt/ros/$ROS1_DISTRO/setup.bash" >> ~/.bashrc && \
+    apt install -y python3-rosinstall python3-rosinstall-generator python3-wstool \
+    ros-noetic-catkin \
+    ros-noetic-serial \
+    ros-noetic-message-generation \
+    ros-noetic-tf \
+    ros-noetic-roscpp \
+    ros-noetic-message-runtime \
+    ros-noetic-nodelet \
+    ros-noetic-roslint \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install ros1_bridge
+RUN apt-get update && apt-get install -y \
+    ros-foxy-ros1-bridge \
+    && rm -rf /var/lib/apt/lists/*
 
 # Include source command in bashrc file
 RUN echo "source /opt/ros/$ROS2_DISTRO/setup.bash" >> ~/.bashrc
