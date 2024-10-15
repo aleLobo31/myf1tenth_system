@@ -29,7 +29,13 @@ RUN git clone https://github.com/ros-drivers/transport_drivers.git && \
 
 WORKDIR /root/f1tenth_ws
 
-RUN rosdep update --include-eol-distros && rosdep install --from-paths src -i -y
+RUN wget https://github.com/chriskohlhoff/asio/archive/asio-1-12-2.tar.gz && \
+    tar -xvzf asio-1-12-2.tar.gz && \
+    cd asio-asio-1-12-2 && \
+    cp -r asio/include/asio /usr/include/ && \
+    apt-get update 
+
+RUN rosdep update --include-eol-distros && rosdep install --from-paths src -i -y --skip-keys="serial message_generation tf catkin roscpp message_runtime nodelet roslint libasio-dev"
 
 # Source the setup script
 RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
