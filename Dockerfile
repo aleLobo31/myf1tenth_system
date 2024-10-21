@@ -4,8 +4,8 @@ FROM ros:foxy-ros-base-focal
 # Set environment variables
 ENV LANG=C.UTF-8
 ENV LC_ALL=C.UTF-8
-ENV ROS1_DISTRO=noetic
-ENV ROS2_DISTRO=foxy
+#ENV ROS1_DISTRO=noetic
+#ENV ROS2_DISTRO=foxy
 
 # Update the package list and install necessary packages for building ROS2
 RUN apt-get update && apt-get install -y \
@@ -34,14 +34,13 @@ RUN wget https://github.com/chriskohlhoff/asio/archive/asio-1-12-2.tar.gz && \
     apt-get update
    
 # Install the associated dependencies
-RUN rosdep update --include-eol-distros && rosdep install --from-paths src -i -y --skip-keys="serial message_generation tf catkin roscpp message_runtime nodelet roslint”
+RUN rosdep update --i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nclude-eol-distros && rosdep install --from-paths src -i -y --skip-keys="serial message_generation tf catkin roscpp message_runtime nodelet roslint”
 
 # Install ROS1
 RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' && \
     curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add - && \
     apt-get update && \ 
     apt install -y ros-noetic-ros-base && \
-    echo "source /opt/ros/$ROS1_DISTRO/setup.bash" >> ~/.bashrc && \
     apt install -y python3-rosinstall python3-rosinstall-generator python3-wstool \
     ros-noetic-catkin \
     ros-noetic-serial \
@@ -59,7 +58,8 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Include source command in bashrc file
-RUN echo "source /opt/ros/$ROS2_DISTRO/setup.bash" >> ~/.bashrc
+#RUN echo "source /opt/ros/$ROS2_DISTRO/setup.bash" >> ~/.bashrc
+#RUN echo "source /opt/ros/$ROS1_DISTRO/setup.bash" >> ~/.bashrc 
 
 # Set the entrypoint to run the container in a bash shell
 CMD ["/bin/bash"]
