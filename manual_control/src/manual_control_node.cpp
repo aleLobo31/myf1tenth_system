@@ -70,7 +70,15 @@ private:
 
     // Publish the Ackermann command
     ackermann_pub_->publish(ackermann_msg);
-
+    /*
+    if (joy->buttons[0] == 1) {
+      system("ds4drv --led=255,0,0");
+      RCLCPP_INFO(this.get_logger(), "Manual mode enabled, light turned red");
+    }
+    else  if (joy->buttons[1] == 1) {
+      system("ds4drv --led=0,255,0");
+      RCLCPP_INFO(this.get_logger(), "Manual mode disabled, light turned green");
+    }*/
 
     if (joy->axes[7] == 1.0 && prev_drive_multiplier_button_value_ == 0.0){
       drive_multiplier_ += 0.05;
@@ -87,7 +95,6 @@ private:
       RCLCPP_INFO(this->get_logger(), "Killed async_slam_tool and vesc_to_odom_node");
     }
     kill_button_prev_ = joy->buttons[1];
-
   }
 
   // Callback function for autonomous driving messages

@@ -1,3 +1,2 @@
-sudo apt install joystick input-utils
-sudo apt install xboxdrv
-sudo xboxdrv --detach-kernel-driver
+sudo apt install -y joystick input-utils
+sudo apt install -y bluez bluez-tools bluetooth

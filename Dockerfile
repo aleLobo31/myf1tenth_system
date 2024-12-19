@@ -14,7 +14,21 @@ RUN apt-get update && apt-get install -y \
     sudo \
     libbullet-dev \
     tmux \
+    bluetooth \
+    bluez \
+    bluez-tools \
+    python3-pip \
+    libhidapi-dev \
+    libusb-1.0-0-dev \
+    dbus \
     && rm -rf /var/lib/apt/lists/*
+
+#Install ds4drv
+RUN pip3 install ds4drv
+
+
+#Enable Bluetooth permissions for the container
+RUN usermod -aG bluetooth root
 
 # Create a workspace directory
 WORKDIR /root/f1tenth_ws/src

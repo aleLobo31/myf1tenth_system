@@ -36,11 +36,13 @@ def generate_launch_description():
         'config',
         'vesc.yaml'
     )
+    '''
     sensors_config = os.path.join(
         get_package_share_directory('f1tenth_stack'),
         'config',
         'sensors.yaml'
     )
+    '''
     manual_control_config = os.path.join(
         get_package_share_directory('f1tenth_stack'),
         'config',
@@ -52,16 +54,18 @@ def generate_launch_description():
         'vesc_config',
         default_value=vesc_config,
         description='Descriptions for vesc configs')
+    '''
     sensors_la = DeclareLaunchArgument(
         'sensors_config',
         default_value=sensors_config,
         description='Descriptions for sensor configs')
+    '''
     manual_control_la = DeclareLaunchArgument(
         'manual_control_config',
         default_value=manual_control_config,
         description='Descriptions for manual_control configs')
 
-    ld = LaunchDescription([vesc_la, sensors_la, manual_control_la])
+    ld = LaunchDescription([vesc_la, manual_control_la])
 
     joy_node = Node(
         package='joy',
@@ -97,14 +101,14 @@ def generate_launch_description():
         name='vesc_driver_node',
         parameters=[LaunchConfiguration('vesc_config')]
         )
-
+    '''
     ldlidar_node = Node(
         package='ldlidar',
         executable='ldlidar',
         name='ldlidar',
         parameters=[LaunchConfiguration('sensors_config')]
         )
-
+    '''
     static_tf_node = Node(
         package='tf2_ros',
         executable='static_transform_publisher',
@@ -118,7 +122,7 @@ def generate_launch_description():
     ld.add_action(ackermann_to_vesc_node)
     ld.add_action(vesc_to_odom_node)
     ld.add_action(vesc_driver_node)
-    ld.add_action(ldlidar_node)
+    # ld.add_action(ldlidar_node)
     ld.add_action(static_tf_node)
 
     return ld
