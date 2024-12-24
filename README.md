@@ -6,21 +6,6 @@ A collaborative project to develop and simulate autonomous racing algorithms for
 - **Alejando Lobo**: [GitHub Profile](https://github.com/aleLobo31)
 - **Jaime García Arrojo**: [GitHub Profile](https://github.com/JaimeG-ELC)
 
-## Repository Structure (so far)
-
-| Dockerfile
-├── LICENSE
-├── README.md
-├── scripts/
-  └── build_image.sh
-  └── launch_container.sh
-  └── install_docker.sh
-  └── set_devices.sh
-  └── create_swapfile.sh
-├── src/
-  └── f1tenth_stack
-  └── manual_control
-
   
 ## Key Features
 
