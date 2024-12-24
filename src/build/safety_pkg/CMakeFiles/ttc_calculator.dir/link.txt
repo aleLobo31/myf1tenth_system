@@ -1,2 +1,0 @@
-/usr/bin/ar qc libttc_calculator.a  CMakeFiles/ttc_calculator.dir/src/ttc_calculator.cpp.o
-/usr/bin/ranlib libttc_calculator.a
