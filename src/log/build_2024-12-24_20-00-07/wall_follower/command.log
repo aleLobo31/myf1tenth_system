@@ -1,1 +1,0 @@
-Invoking command in '/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/build/wall_follower': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/foxy /usr/bin/cmake --build /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/build/wall_follower -- -j8 -l8
