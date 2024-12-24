@@ -27,8 +27,8 @@ A collaborative project to develop and simulate autonomous racing algorithms for
 - Then the container must be launch to start it
 
 ## Getting Started
-1.- Using the scrips install Docker, ros2:
-`./install_docker_ros2.sh`
+1.- Using the scrips install Docker:
+`./install_docker.sh`
 
 2.- Build the image of the container
 `./build_container.sh`
