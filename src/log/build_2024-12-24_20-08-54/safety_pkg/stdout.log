@@ -1,0 +1,29 @@
+[ 40%] Built target ttc_calculator
+[100%] Built target safety_node
+-- Install configuration: ""
+-- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/safety_pkg/lib/safety_pkg/safety_node
+-- Set runtime path of "/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/safety_pkg/lib/safety_pkg/safety_node" to ""
+-- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/safety_pkg/lib/libttc_calculator.a
+-- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/safety_pkg/include/
+-- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/safety_pkg/include//safety_pkg
+-- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/safety_pkg/include//safety_pkg/safety_node.hpp
+-- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/safety_pkg/include//safety_pkg/ttc_calculator.hpp
+-- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/safety_pkg/share/safety_pkg/launch
+-- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/safety_pkg/share/safety_pkg/launch/safety.launch.py
+-- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/safety_pkg/share/safety_pkg/config
+-- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/safety_pkg/share/safety_pkg/config/safety_params.yaml
+-- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/safety_pkg/share/ament_index/resource_index/package_run_dependencies/safety_pkg
+-- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/safety_pkg/share/ament_index/resource_index/parent_prefix_path/safety_pkg
+-- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/safety_pkg/share/safety_pkg/environment/ament_prefix_path.sh
+-- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/safety_pkg/share/safety_pkg/environment/ament_prefix_path.dsv
+-- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/safety_pkg/share/safety_pkg/environment/path.sh
+-- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/safety_pkg/share/safety_pkg/environment/path.dsv
+-- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/safety_pkg/share/safety_pkg/local_setup.bash
+-- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/safety_pkg/share/safety_pkg/local_setup.sh
+-- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/safety_pkg/share/safety_pkg/local_setup.zsh
+-- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/safety_pkg/share/safety_pkg/local_setup.dsv
+-- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/safety_pkg/share/safety_pkg/package.dsv
+-- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/safety_pkg/share/ament_index/resource_index/packages/safety_pkg
+-- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/safety_pkg/share/safety_pkg/cmake/safety_pkgConfig.cmake
+-- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/safety_pkg/share/safety_pkg/cmake/safety_pkgConfig-version.cmake
+-- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/safety_pkg/share/safety_pkg/package.xml

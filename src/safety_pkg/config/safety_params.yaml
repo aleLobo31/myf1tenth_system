@@ -1,0 +1,8 @@
+/**:
+  ros__parameters:
+    ttc_threshold: 1.5
+    min_speed_threshold: 0.5  # Minimum speed to activate TTC checking
+    max_brake_speed: 0.0     # Speed to set when braking
+    scan_topic: "/scan"
+    odom_topic: "/ego_racecar/odom"
+    drive_topic: "/drive"

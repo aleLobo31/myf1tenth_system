@@ -1,0 +1,6 @@
+ldlidar:
+  ros__parameters:
+    serial_port: '/dev/sensors/lidar'
+    topic_name: '/scan'
+    lidar_frame: 'laser'
+    range_threshold: 0.03
