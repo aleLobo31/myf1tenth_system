@@ -1,0 +1,32 @@
+[0.260s] Invoking command in '/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/build/wall_follower': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/foxy /usr/bin/cmake --build /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/build/wall_follower -- -j8 -l8
+[0.318s] [35m[1mScanning dependencies of target wall_follower[0m
+[0.365s] [ 33%] [32mBuilding CXX object CMakeFiles/wall_follower.dir/src/wall_follower.cpp.o[0m
+[5.572s] [ 66%] [32m[1mLinking CXX executable wall_follower[0m
+[5.831s] [100%] Built target wall_follower
+[5.842s] Invoked command in '/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/build/wall_follower' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/foxy /usr/bin/cmake --build /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/build/wall_follower -- -j8 -l8
+[5.844s] Invoking command in '/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/build/wall_follower': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/foxy /usr/bin/cmake --install /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/build/wall_follower
+[5.852s] -- Install configuration: ""
+[5.853s] -- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/wall_follower/lib/wall_follower/wall_follower
+[5.854s] -- Set runtime path of "/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/wall_follower/lib/wall_follower/wall_follower" to ""
+[5.854s] -- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/wall_follower/share/wall_follower/launch
+[5.854s] -- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/wall_follower/share/wall_follower/launch/wall_follower.launch.py
+[5.855s] -- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/wall_follower/share/wall_follower/config
+[5.855s] -- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/wall_follower/share/wall_follower/config/params.yaml
+[5.855s] -- Up-to-date: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/wall_follower/share/wall_follower/launch
+[5.855s] -- Up-to-date: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/wall_follower/share/wall_follower/launch/wall_follower.launch.py
+[5.855s] -- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/wall_follower/share/ament_index/resource_index/package_run_dependencies/wall_follower
+[5.855s] -- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/wall_follower/share/ament_index/resource_index/parent_prefix_path/wall_follower
+[5.855s] -- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/wall_follower/share/wall_follower/environment/ament_prefix_path.sh
+[5.855s] -- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/wall_follower/share/wall_follower/environment/ament_prefix_path.dsv
+[5.855s] -- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/wall_follower/share/wall_follower/environment/path.sh
+[5.855s] -- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/wall_follower/share/wall_follower/environment/path.dsv
+[5.855s] -- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/wall_follower/share/wall_follower/local_setup.bash
+[5.855s] -- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/wall_follower/share/wall_follower/local_setup.sh
+[5.856s] -- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/wall_follower/share/wall_follower/local_setup.zsh
+[5.856s] -- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/wall_follower/share/wall_follower/local_setup.dsv
+[5.856s] -- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/wall_follower/share/wall_follower/package.dsv
+[5.856s] -- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/wall_follower/share/ament_index/resource_index/packages/wall_follower
+[5.856s] -- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/wall_follower/share/wall_follower/cmake/wall_followerConfig.cmake
+[5.856s] -- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/wall_follower/share/wall_follower/cmake/wall_followerConfig-version.cmake
+[5.856s] -- Installing: /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/wall_follower/share/wall_follower/package.xml
+[5.858s] Invoked command in '/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/build/wall_follower' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/foxy /usr/bin/cmake --install /home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/build/wall_follower

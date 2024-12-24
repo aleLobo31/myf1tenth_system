@@ -1,0 +1,17 @@
+/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/manual_control/lib/manual_control/manual_control_node
+/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/manual_control/share/manual_control//params/manual_control_node_params.yaml
+/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/manual_control/share/ament_index/resource_index/package_run_dependencies/manual_control
+/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/manual_control/share/ament_index/resource_index/parent_prefix_path/manual_control
+/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/manual_control/share/manual_control/environment/ament_prefix_path.sh
+/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/manual_control/share/manual_control/environment/ament_prefix_path.dsv
+/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/manual_control/share/manual_control/environment/path.sh
+/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/manual_control/share/manual_control/environment/path.dsv
+/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/manual_control/share/manual_control/local_setup.bash
+/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/manual_control/share/manual_control/local_setup.sh
+/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/manual_control/share/manual_control/local_setup.zsh
+/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/manual_control/share/manual_control/local_setup.dsv
+/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/manual_control/share/manual_control/package.dsv
+/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/manual_control/share/ament_index/resource_index/packages/manual_control
+/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/manual_control/share/manual_control/cmake/manual_controlConfig.cmake
+/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/manual_control/share/manual_control/cmake/manual_controlConfig-version.cmake
+/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/install/manual_control/share/manual_control/package.xml

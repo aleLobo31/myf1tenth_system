@@ -1,0 +1,10 @@
+/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/build/manual_control/CMakeFiles/install/strip.dir
+/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/build/manual_control/CMakeFiles/install/local.dir
+/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/build/manual_control/CMakeFiles/install.dir
+/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/build/manual_control/CMakeFiles/list_install_components.dir
+/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/build/manual_control/CMakeFiles/rebuild_cache.dir
+/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/build/manual_control/CMakeFiles/edit_cache.dir
+/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/build/manual_control/CMakeFiles/test.dir
+/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/build/manual_control/CMakeFiles/manual_control_node.dir
+/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/build/manual_control/CMakeFiles/manual_control_uninstall.dir
+/home/jaime/Documents/GitHub/dev_jaime/myf1tenth_system/src/build/manual_control/CMakeFiles/uninstall.dir

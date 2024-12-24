@@ -1,0 +1,9 @@
+manual_control_node:
+  ros__parameters:
+    joy_topic: "/joy"
+    drive_topic: "/drive"
+    ackermann_cmd_topic: "/ackermann_cmd"
+    throttle_gain: 2
+    throttle_multiplier: 3
+    steering_gain: -0.37
+    steering_offset: 0.0
