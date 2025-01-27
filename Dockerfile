@@ -30,13 +30,7 @@ RUN pip3 install ds4drv
 #Enable Bluetooth permissions for the container
 RUN usermod -aG bluetooth root
 
-# Create a workspace directory
-WORKDIR /root/f1tenth_ws/src
-
-# Install VESC Drivers
-RUN git clone https://github.com/ros-drivers/transport_drivers.git && \
-    git clone -b foxy https://github.com/f1tenth/vesc.git
-
+#Create workspace directory
 WORKDIR /root/f1tenth_ws
 
 # Set source file to install asio dependency later on
@@ -45,10 +39,14 @@ RUN wget https://github.com/chriskohlhoff/asio/archive/asio-1-12-2.tar.gz && \
     cd asio-asio-1-12-2 && \
     cp -r asio/include/asio /usr/include/ && \
     apt-get update
-   
-# Install the associated dependencies
-RUN rosdep update --include-eol-distros && rosdep install --from-paths src -i -y 
 
+# Create a workspace directory
+WORKDIR /root/f1tenth_ws/src
+
+# Install VESC Drivers
+RUN git clone https://github.com/ros-drivers/transport_drivers.git && \
+    git clone -b foxy https://github.com/f1tenth/vesc.git
+   
 # Change to src folder to install required ros packages
 WORKDIR /root/f1tenth_ws/src/ldlidar
 
@@ -57,6 +55,8 @@ RUN git clone -b ros2 https://github.com/linorobot/ldlidar.git
 
 WORKDIR /root/f1tenth_ws
 
+# Install the associated dependencies
+RUN rosdep update --include-eol-distros && rosdep install --from-paths src -i -y 
 RUN rosdep update --include-eol-distros && rosdep install --from-path src --ignore-src -y
 
 WORKDIR /root/f1tenth_ws
