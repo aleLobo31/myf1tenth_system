@@ -43,6 +43,12 @@ def generate_launch_description():
         'lidar.yaml'
     )
 
+    imu_config = os.path.join(
+        get_package_share_directory('f1tenth_stack'),
+        'config',
+        'imu.yaml'
+    )
+
     manual_control_config = os.path.join(
         get_package_share_directory('f1tenth_stack'),
         'config',
@@ -60,12 +66,18 @@ def generate_launch_description():
         default_value=sensors_config,
         description='Descriptions for sensor configs')
 
+    imu _la = DeclareLaunchArgument(
+        'imu_config'
+        default_value=imu_config,
+        description='Description for imu configs')
+
+
     manual_control_la = DeclareLaunchArgument(
         'manual_control_config',
         default_value=manual_control_config,
         description='Descriptions for manual_control configs')
 
-    ld = LaunchDescription([vesc_la, lidar_la, manual_control_la])
+    ld = LaunchDescription([vesc_la, lidar_la, imu_la, manual_control_la])
 
     joy_node = Node(
         package='joy',
@@ -107,7 +119,12 @@ def generate_launch_description():
         name='ldlidar',
         parameters=[LaunchConfiguration('lidar_config')]
         )
-    '''
+    razor_imu_ros2 = Node(
+        package='razor_imu_ros2',
+        executable='razor_imu_ros2_exe',
+        name='IMU_ARTEMIS',
+        parameters=[LaunchConfiguration('imu_config')]
+        )
     static_tf_node = Node(
         package='tf2_ros',
         executable='static_transform_publisher',
@@ -122,6 +139,7 @@ def generate_launch_description():
     ld.add_action(vesc_to_odom_node)
     ld.add_action(vesc_driver_node)
     ld.add_action(ldlidar_node)
+    ld.add_action(razor_imu_ros2)
     ld.add_action(static_tf_node)
 
     return ld
