@@ -50,6 +50,9 @@ RUN git clone https://github.com/ros-drivers/transport_drivers.git && \
 # Install LIDAR Drivers
 RUN git clone https://github.com/ldrobotSensorTeam/ldlidar_stl_ros2.git
 
+#Install Imu Drivers
+RUN git clone https://github.com/JaimeG-ELC/razor_imu_ros2.git
+
 WORKDIR /root/f1tenth_ws
 
 # Install the associated dependencies
