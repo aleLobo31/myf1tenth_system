@@ -47,9 +47,6 @@ WORKDIR /root/f1tenth_ws/src
 RUN git clone https://github.com/ros-drivers/transport_drivers.git && \
     git clone -b foxy https://github.com/f1tenth/vesc.git
    
-# Change to src folder to install required ros packages
-WORKDIR /root/f1tenth_ws/src/ldlidar
-
 # Install LIDAR Drivers
 RUN git clone -b ros2 https://github.com/linorobot/ldlidar.git
 
