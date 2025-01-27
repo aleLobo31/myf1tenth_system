@@ -61,10 +61,10 @@ def generate_launch_description():
         default_value=vesc_config,
         description='Descriptions for vesc configs')
 
-    sensors_la = DeclareLaunchArgument(
-        'sensors_config',
-        default_value=sensors_config,
-        description='Descriptions for sensor configs')
+    lidar_la = DeclareLaunchArgument(
+        'lidar_config',
+        default_value=lidar_config,
+        description='Descriptions for lidar configs')
 
     imu _la = DeclareLaunchArgument(
         'imu_config'
@@ -113,10 +113,10 @@ def generate_launch_description():
         name='vesc_driver_node',
         parameters=[LaunchConfiguration('vesc_config')]
         )
-    ldlidar_node = Node(
-        package='ldlidar',
-        executable='ldlidar',
-        name='ldlidar',
+    ldlidar_stl_ros2 = Node(
+        package='ldlidar_stl_ros2',
+        executable='ldlidar_stl_ros2_node',
+        name='LD19',
         parameters=[LaunchConfiguration('lidar_config')]
         )
     razor_imu_ros2 = Node(
