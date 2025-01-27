@@ -139,6 +139,12 @@ def generate_launch_description():
         arguments=['0', '0', '0', '-1.5708', '0', '0', 'base_link', 'laser']
     )
 
+    safety_node = Node(
+        package='safety_pkg',
+        executable='safety_node',
+        name='safety_node'
+    )
+
     # finalize
     ld.add_action(joy_node)
     ld.add_action(manual_control_node)
@@ -148,5 +154,6 @@ def generate_launch_description():
     ld.add_action(ldlidar_node)
     ld.add_action(razor_imu_ros2)
     ld.add_action(static_tf_node)
+    ld.add_action(safety_node)
 
     return ld
