@@ -151,7 +151,7 @@ def generate_launch_description():
     ld.add_action(ackermann_to_vesc_node)
     ld.add_action(vesc_to_odom_node)
     ld.add_action(vesc_driver_node)
-    ld.add_action(ldlidar_node)
+    ld.add_action(ldlidar_stl_ros2)
     ld.add_action(razor_imu_ros2)
     ld.add_action(static_tf_node)
     ld.add_action(safety_node)
