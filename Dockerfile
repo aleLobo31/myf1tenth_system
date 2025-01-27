@@ -48,7 +48,7 @@ RUN git clone https://github.com/ros-drivers/transport_drivers.git && \
     git clone -b foxy https://github.com/f1tenth/vesc.git
    
 # Install LIDAR Drivers
-RUN git clone -b ros2 https://github.com/linorobot/ldlidar.git
+RUN git clone https://github.com/ldrobotSensorTeam/ldlidar_stl_ros2.git
 
 WORKDIR /root/f1tenth_ws
 
