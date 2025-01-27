@@ -59,23 +59,26 @@ def generate_launch_description():
     vesc_la = DeclareLaunchArgument(
         'vesc_config',
         default_value=vesc_config,
-        description='Descriptions for vesc configs')
+        description='Descriptions for vesc configs'
+    )
 
     lidar_la = DeclareLaunchArgument(
         'lidar_config',
         default_value=lidar_config,
-        description='Descriptions for lidar configs')
+        description='Descriptions for lidar configs'
+    )
 
     imu _la = DeclareLaunchArgument(
         'imu_config'
         default_value=imu_config,
-        description='Description for imu configs')
-
+        description='Description for imu configs'
+    )
 
     manual_control_la = DeclareLaunchArgument(
         'manual_control_config',
         default_value=manual_control_config,
-        description='Descriptions for manual_control configs')
+        description='Descriptions for manual_control configs'
+    )
 
     ld = LaunchDescription([vesc_la, lidar_la, imu_la, manual_control_la])
 
@@ -92,45 +95,49 @@ def generate_launch_description():
         name='manual_control_node',
         output='screen',
         parameters=[LaunchConfiguration('manual_control_config')]
-        )
+    )
 
     ackermann_to_vesc_node = Node(
         package='vesc_ackermann',
         executable='ackermann_to_vesc_node',
         name='ackermann_to_vesc_node',
         parameters=[LaunchConfiguration('vesc_config')]
-        )
+    )
 
     vesc_to_odom_node = Node(
         package='vesc_ackermann',
         executable='vesc_to_odom_node',
         name='vesc_to_odom_node',
         parameters=[LaunchConfiguration('vesc_config')]
-        )
+    )
+
     vesc_driver_node = Node(
         package='vesc_driver',
         executable='vesc_driver_node',
         name='vesc_driver_node',
         parameters=[LaunchConfiguration('vesc_config')]
-        )
+    )
+
     ldlidar_stl_ros2 = Node(
         package='ldlidar_stl_ros2',
         executable='ldlidar_stl_ros2_node',
         name='LD19',
         parameters=[LaunchConfiguration('lidar_config')]
-        )
+    )
+
     razor_imu_ros2 = Node(
         package='razor_imu_ros2',
         executable='razor_imu_ros2_exe',
         name='IMU_ARTEMIS',
         parameters=[LaunchConfiguration('imu_config')]
-        )
+    )
+
     static_tf_node = Node(
         package='tf2_ros',
         executable='static_transform_publisher',
         name='static_baselink_to_laser',
         arguments=['0', '0', '0', '-1.5708', '0', '0', 'base_link', 'laser']
-        )
+    )
 
     # finalize
     ld.add_action(joy_node)
