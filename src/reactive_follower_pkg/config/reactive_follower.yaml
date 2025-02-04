@@ -1,0 +1,10 @@
+reactive_follow_gap:
+  ros__parameters:
+    lidarscan_topic: "/scan"
+    drive_topic: "/drive"
+    max_speed: 5.0
+    min_speed: 0.2
+    bubble_radius: 3.0
+    max_lidar_range: 10.0
+    smoothing_window_size: 3
+
