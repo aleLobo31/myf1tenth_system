@@ -4,18 +4,36 @@
 SafetyNode::SafetyNode() : Node("safety_node"), current_velocity_(0.0) {
     // Create a TTC (Time To Collision) Calculator with 1.0 second threshold
     // This will help determine if we're too close to obstacles
-    ttc_calculator_ = std::make_unique<TTCCalculator>(1.0);  // threshold = 1.0s
+    this->declare_parameter<double>("ttc_threshold", 0.0);
+    this->declare_parameter<double>("restricted_min_angle", 0.0);
+    this->declare_parameter<double>("restricted_max_angle", 0.0);
+    // this->declare_parameter<double>("min_speed_threshold", 1.0);
+    // this->declare_parameter<double>("max_brake_speed", 1.0);
+    this->declare_parameter<std::string>("scan_topic", "");
+    this->declare_parameter<std::string>("odom_topic", "");
+    this->declare_parameter<std::string>("drive_topic", "");
+
+    double ttc_threshold = this->get_parameter("ttc_threshold").as_double();
+    double restricted_min_angle = this->get_parameter("restricted_min_angle").as_double();
+    double restricted_max_angle = this->get_parameter("restricted_max_angle").as_double();
+    // min_speed_threshold = this->get_parameter("min_speed_threshold").as_double();
+    // max_brake_speed = this->get_parameter("max_brake_speed").as_double(); 
+    scan_topic = this->get_parameter("scan_topic").as_string();
+    odom_topic = this->get_parameter("odom_topic").as_string();
+    drive_topic = this->get_parameter("drive_topic").as_string();
+
+    ttc_calculator_ = std::make_unique<TTCCalculator>(ttc_threshold, restricted_min_angle, restricted_max_angle);  // threshold = 1.0s
     
     // Create a publisher that will send brake commands
     // Uses AckermannDriveStamped messages on the "/drive" topic with queue size 10
     brake_publisher_ = this->create_publisher<ackermann_msgs::msg::AckermannDriveStamped>(
-        "/drive", 10);
+        drive_topic, 10);
 
     // Create a subscriber for laser scan data
     // Subscribes to LaserScan messages on "/scan" topic with queue size 10
     // When a message arrives, it calls scanCallback function
     scan_subscriber_ = this->create_subscription<sensor_msgs::msg::LaserScan>(
-        "/scan", 10,
+        scan_topic, 10,
         // std::bind creates a function object that calls scanCallback when invoked
         // &SafetyNode::scanCallback - pointer to the member function to be called 
         // this - pointer to the SafetyNode instance on which to call the function
@@ -26,12 +44,13 @@ SafetyNode::SafetyNode() : Node("safety_node"), current_velocity_(0.0) {
     // Subscribes to Odometry messages on "/ego_racecar/odom" topic with queue size 10
     // When a message arrives, it calls odomCallback function
     odom_subscriber_ = this->create_subscription<nav_msgs::msg::Odometry>(
-        "/ego_racecar/odom", 10,
+        odom_topic, 10,
         std::bind(&SafetyNode::odomCallback, this, std::placeholders::_1));
 }
 
 // Callback function that processes incoming laser scan data
 void SafetyNode::scanCallback(const sensor_msgs::msg::LaserScan::SharedPtr scan_msg) {
+    // std::cout << "Angle_min = " << scan_msg->angle_min << "Angle_max = " << scan_msg->angle_max << std::endl;
     // If we're not moving, no need to check for collisions
     if (current_velocity_ <= 0) return;
 

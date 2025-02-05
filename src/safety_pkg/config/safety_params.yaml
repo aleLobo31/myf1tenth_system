@@ -1,6 +1,8 @@
 /**:
   ros__parameters:
-    ttc_threshold: 1.5
+    ttc_threshold: 1.0
+    restricted_min_angle: -1.57
+    restricted_max_angle: 1.57
     min_speed_threshold: 0.5  # Minimum speed to activate TTC checking
     max_brake_speed: 0.0     # Speed to set when braking
     scan_topic: "/scan"
