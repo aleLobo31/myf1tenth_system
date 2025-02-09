@@ -26,11 +26,9 @@ RUN apt-get update && apt-get install -y \
 #Install ds4drv
 RUN pip3 install ds4drv
 
-
 #Enable Bluetooth permissions for the container
 RUN usermod -aG bluetooth root
 
-#Create workspace directory
 WORKDIR /root/f1tenth_ws
 
 # Set source file to install asio dependency later on
@@ -50,16 +48,15 @@ RUN git clone https://github.com/ros-drivers/transport_drivers.git && \
 # Install LIDAR Drivers
 RUN git clone https://github.com/ldrobotSensorTeam/ldlidar_stl_ros2.git
 
-#Install Imu Drivers
+# Install IMU
 RUN git clone https://github.com/JaimeG-ELC/razor_imu_ros2.git
 
 WORKDIR /root/f1tenth_ws
 
 # Install the associated dependencies
-RUN rosdep update --include-eol-distros && rosdep install --from-paths src -i -y 
-RUN rosdep update --include-eol-distros && rosdep install --from-path src --ignore-src -y
+# RUN rosdep update --include-eol-distros && rosdep install --from-paths src -i -y 
 
-WORKDIR /root/f1tenth_ws
+RUN rosdep update --include-eol-distros && rosdep install --from-path src --ignore-src -y
 
 # Install Joy Ros package
 RUN apt-get update && apt-get install -y ros-foxy-joy 

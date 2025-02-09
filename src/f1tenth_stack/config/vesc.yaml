@@ -20,8 +20,8 @@
     speed_max: 23250.0
     position_min: 0.0
     position_max: 0.0
-    servo_min: 0.03
-    servo_max: 0.91
+    servo_min: 0.1
+    servo_max: 0.9
 
 # No longer needed, all parameters are shared
 # ackermann_to_vesc_node:

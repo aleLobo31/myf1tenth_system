@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.5)
-project(reactive_follower)
+project(reactive_follower_pkg)
 
 # Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 14)
+  set(CMAKE_CXX_STANDARD 17)
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
@@ -27,19 +27,13 @@ find_package(std_msgs REQUIRED)
 include_directories(include/ reactive_follower_pkg)
 
 # Create Cpp executable
-add_executable(reactive_follower src/reactive_follower.cpp)
-ament_target_dependencies(reactive_follower rclcpp geometry_msgs ackermann_msgs nav_msgs sensor_msgs std_msgs)
+add_executable(reactive_follower_node src/reactive_follower_node.cpp)
+ament_target_dependencies(reactive_follower_node rclcpp geometry_msgs ackermann_msgs nav_msgs sensor_msgs std_msgs)
 
 # Install Cpp executables
 install(TARGETS
-  reactive_follower
+  reactive_follower_node
   DESTINATION lib/${PROJECT_NAME})
-
-# Install the executable
-install(TARGETS
-  reactive_follower
-  DESTINATION lib/${PROJECT_NAME}
-)
 
 # Install launch files
 install(DIRECTORY

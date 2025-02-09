@@ -17,7 +17,7 @@ public:
      * @brief Constructor that takes a TTC threshold value
      * @param ttc_threshold The minimum acceptable time to collision (in seconds)
      */
-    explicit TTCCalculator(double ttc_threshold);
+    explicit TTCCalculator(double ttc_threshold, double min_restricted_angle, double max_restricted_angle);
     
     /**
      * @brief Calculates the minimum TTC from all laser scan beams
@@ -36,7 +36,8 @@ public:
 
 private:
     double ttc_threshold_;  // Stores the minimum acceptable time to collision
-
+    double min_restricted_angle;
+    double max_restricted_angle;
     /**
      * @brief Calculates TTC for a single laser beam
      * @param range Distance to obstacle for this beam

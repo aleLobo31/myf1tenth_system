@@ -4,8 +4,9 @@
 
 // Constructor that initializes the TTC calculator with a threshold value
 // This threshold determines when we consider a collision risk to be critical
-TTCCalculator::TTCCalculator(double ttc_threshold)
-    : ttc_threshold_(ttc_threshold) {}
+TTCCalculator::TTCCalculator(double ttc_threshold, double min_restricted_angle, double max_restricted_angle)
+    : ttc_threshold_(ttc_threshold), min_restricted_angle(min_restricted_angle), 
+    max_restricted_angle(max_restricted_angle) {}
 
 // Calculates the minimum Time To Collision (TTC) from all laser scan beams
 // Parameters:
@@ -33,7 +34,7 @@ double TTCCalculator::calculateMinTTC(
         
         // Only process valid range measurements
         // Invalid measurements (inf/nan) are skipped
-        if (std::isfinite(range)) {
+        if (std::isfinite(range) && angle > min_restricted_angle && angle < max_restricted_angle) {
             // Calculate TTC for this specific beam
             double ttc = calculateTTC(range, angle, current_velocity);
             // Keep track of the minimum TTC found

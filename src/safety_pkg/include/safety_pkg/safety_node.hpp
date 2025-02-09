@@ -10,6 +10,8 @@
 #include <ackermann_msgs/msg/ackermann_drive_stamped.hpp>  // For sending drive commands
 #include "safety_pkg/ttc_calculator.hpp"       // Our custom Time-To-Collision calculator
 
+#include <iostream>
+
 // SafetyNode inherits from the ROS2 Node class to create a ROS2 node
 class SafetyNode : public rclcpp::Node {
 public:
@@ -42,6 +44,13 @@ private:
 
     // Stores the current velocity of the vehicle
     double current_velocity_;
+
+    // Variables associated with Parameters
+    // double min_speed_threshold;
+    // double max_brake_speed; 
+    std::string scan_topic;
+    std::string odom_topic;
+    std::string drive_topic;
 
     // Callback functions that will be triggered when messages arrive:
     
