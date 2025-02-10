@@ -1,6 +1,7 @@
 #include "reactive_follower_pkg/reactive_follower_node.hpp"
 
 ReactiveFollowerNode::ReactiveFollowerNode() : Node("reactive_follower") {
+    
     // Declare and retrieve parameters
     this->declare_parameter("lidarscan_topic", "/scan");
     this->declare_parameter("drive_topic", "/drive");
@@ -33,6 +34,16 @@ ReactiveFollowerNode::ReactiveFollowerNode() : Node("reactive_follower") {
 
     start_index = std::max(0, std::min(449, static_cast<int>(start_angle / ((360.0 / 450) * (M_PI / 180.0)))));
     end_index = std::max(0, std::min(449, static_cast<int>(end_angle / ((360.0 / 450) * (M_PI / 180.0)))));
+
+    RCLCPP_INFO(get_logger(), "<lidarscan_topic>: %s", lidarscan_topic.c_str());
+    RCLCPP_INFO(get_logger(), "<drive_topic>: %s", drive_topic.c_str());
+    RCLCPP_INFO(get_logger(), "<bubble_radius>: %d", bubble_radius);
+    RCLCPP_INFO(get_logger(), "<max_speed>: %f", max_speed);
+    RCLCPP_INFO(get_logger(), "<min_speed>: %f", min_speed);
+    RCLCPP_INFO(get_logger(), "<lidar_angle>: %f", lidar_angle);
+    RCLCPP_INFO(get_logger(), "<max_lidar_distance>: %f", max_lidar_distance);
+    RCLCPP_INFO(get_logger(), "<weight_speed>: %f", weight_speed);
+    RCLCPP_INFO(get_logger(), "<weight_steering>: %f", weight_steering);
 
     RCLCPP_INFO(get_logger(), "Reactive follower initialized");
 }
@@ -80,10 +91,10 @@ void ReactiveFollowerNode::eliminate_bubble(std::vector<float> &ranges, size_t c
 }
 
 std::pair<size_t, size_t> ReactiveFollowerNode::find_max_gap(const std::vector<float> &ranges) {
-    int min_gap = 0;
-    int longest_gap = 0;
-    int curr_gap = 0;
-    for (int i = 0; i < ranges.size(); i++) {
+    size_t min_gap = 0;
+    size_t longest_gap = 0;
+    size_t curr_gap = 0;
+    for (size_t i = 0; i < ranges.size(); i++) {
         if (ranges[i] < 0.5) {
             curr_gap = 0;
         } else {
@@ -94,7 +105,7 @@ std::pair<size_t, size_t> ReactiveFollowerNode::find_max_gap(const std::vector<f
             }
         }
     }
-    int max_gap = min_gap + longest_gap;
+    size_t max_gap = min_gap + longest_gap;
     return std::make_pair(min_gap, max_gap);
 }
 
@@ -112,7 +123,12 @@ size_t ReactiveFollowerNode::find_best_point(const std::vector<float> &ranges, s
         }
     }
     
-    return best_idx;
+//    return best_idx;
+
+  size_t best_aux = (gap_start + gap_end)/2;
+  return best_aux;
+
+
 }
 
 void ReactiveFollowerNode::lidar_callback(const sensor_msgs::msg::LaserScan::ConstSharedPtr scan_msg) {
@@ -120,7 +136,7 @@ void ReactiveFollowerNode::lidar_callback(const sensor_msgs::msg::LaserScan::Con
     std::vector<float> cropped_ranges(end_index - start_index + 1);
     
     // Get only the front section
-    for (int i = 0; i < cropped_ranges.size(); ++i) {
+    for (size_t i = 0; i < cropped_ranges.size(); ++i) {
         cropped_ranges[i] = ranges[i + start_index];
     }
 

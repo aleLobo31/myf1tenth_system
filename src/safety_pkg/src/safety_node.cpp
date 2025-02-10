@@ -4,7 +4,7 @@
 SafetyNode::SafetyNode() : Node("safety_node"), current_velocity_(0.0) {
     // Create a TTC (Time To Collision) Calculator with 1.0 second threshold
     // This will help determine if we're too close to obstacles
-    this->declare_parameter<double>("ttc_threshold", 2.0);
+    this->declare_parameter<double>("ttc_threshold", 0.6);
     this->declare_parameter<double>("restricted_min_angle", 3.14);
     this->declare_parameter<double>("restricted_max_angle", 6.28);
     // this->declare_parameter<double>("min_speed_threshold", 1.0);
@@ -46,6 +46,15 @@ SafetyNode::SafetyNode() : Node("safety_node"), current_velocity_(0.0) {
     odom_subscriber_ = this->create_subscription<nav_msgs::msg::Odometry>(
         odom_topic, 10,
         std::bind(&SafetyNode::odomCallback, this, std::placeholders::_1));
+
+         RCLCPP_INFO(this->get_logger(), "<scan_topic>: %s", scan_topic.c_str());
+    RCLCPP_INFO(this->get_logger(), "<odom_topic>: %s", odom_topic.c_str());
+    RCLCPP_INFO(this->get_logger(), "<drive_topic>: %s", drive_topic.c_str());
+    RCLCPP_INFO(this->get_logger(), "<ttc_threshold>: %f", ttc_threshold);
+    RCLCPP_INFO(this->get_logger(), "<restricted_min_angle>: %f", restricted_min_angle);
+    RCLCPP_INFO(this->get_logger(), "<restricted_max_angle>: %f", restricted_max_angle);
+    
+    RCLCPP_INFO(this->get_logger(), "Safety node initialized");
 }
 
 // Callback function that processes incoming laser scan data

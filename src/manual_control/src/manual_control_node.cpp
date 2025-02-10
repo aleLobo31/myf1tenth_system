@@ -39,6 +39,8 @@ private:
 
   int kill_button_prev_;
 
+  bool prev_lb_state_;
+
   // Callback function for joystick messages
   void joyCallback(const sensor_msgs::msg::Joy::SharedPtr joy) {
     std_msgs::msg::Int8 enable_button_publish;
@@ -95,6 +97,18 @@ private:
       RCLCPP_INFO(this->get_logger(), "Killed async_slam_tool and vesc_to_odom_node");
     }
     kill_button_prev_ = joy->buttons[1];
+
+    // Change LED color based on LB button state (button_pressed_)
+    if (joy->buttons[lb_button_idx_] && !prev_lb_state_) {
+        // LB just pressed - change to green for autonomous mode
+        system("ds4drv --led=0,255,0");
+        RCLCPP_INFO(this->get_logger(), "Autonomous mode enabled, LED turned green");
+    } else if (!joy->buttons[lb_button_idx_] && prev_lb_state_) {
+        // LB just released - change back to blue for manual mode
+        system("ds4drv --led=0,0,255");
+        RCLCPP_INFO(this->get_logger(), "Manual mode enabled, LED turned blue");
+    }
+    prev_lb_state_ = joy->buttons[lb_button_idx_];
   }
 
   // Callback function for autonomous driving messages
@@ -107,7 +121,7 @@ private:
   }
 
 public:
-  ManualControlNode() : Node("manual_control_node") {
+  ManualControlNode() : Node("manual_control_node"), prev_lb_state_(false) {
     // Declare and set parameters
     this->declare_parameter<int>("lb_button_idx", 4);
     this->declare_parameter<int>("rb_button_idx", 5);

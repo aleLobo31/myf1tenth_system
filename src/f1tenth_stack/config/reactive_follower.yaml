@@ -1,15 +1,11 @@
-/**
- * @file reactive_follower.yaml
- * @brief Configuration for the reactive follower node
- */
-
-ros__parameters:
-  lidarscan_topic: "/scan"
-  drive_topic: "/drive"
-  bubble_radius: 13
-  max_speed: 0.3
-  min_speed: 0.2
-  lidar_angle: 135.0
-  max_lidar_distance: 12.0
-  weight_speed: 0.5
-  weight_steering: 0.5
+/**:
+  ros__parameters:
+    lidarscan_topic: "/scan"
+    drive_topic: "/drive"
+    bubble_radius: 13
+    max_speed: 0.3
+    min_speed: 0.2
+    lidar_angle: 135.0
+    max_lidar_distance: 12.0
+    weight_speed: 0.5
+    weight_steering: 0.5

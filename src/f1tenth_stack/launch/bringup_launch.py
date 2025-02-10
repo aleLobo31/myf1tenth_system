@@ -67,8 +67,8 @@ def generate_launch_description():
     vesc_la = DeclareLaunchArgument(
         'vesc_config',
         default_value=vesc_config,
-        description='Descriptions for vesc configs')
-
+        description='Descriptions for vesc configs'
+    )
     lidar_la = DeclareLaunchArgument(
         'lidar_config',
         default_value=lidar_config,
@@ -152,12 +152,14 @@ def generate_launch_description():
     safety_node = Node(
         package='safety_pkg',
         executable='safety_node',
-        name='safety_node'
+        name='safety_node',
+        parameters=[LaunchConfiguration('safety_config')]
         )
     reactive_follower_node = Node(
         package='reactive_follower_pkg',
         executable='reactive_follower_node',
-        name='reactive_follower_node'
+        name='reactive_follower_node',
+        parameters=[LaunchConfiguration('reactive_follower_config')]
         )
 
     # finalize

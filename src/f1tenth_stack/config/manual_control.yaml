@@ -1,4 +1,4 @@
-manual_control_node:
+/**:
   ros__parameters:
     joy_topic: "/joy"
     drive_topic: "/drive"
