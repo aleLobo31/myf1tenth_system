@@ -1,0 +1,34 @@
+#!/bin/bash
+DS4="0005:054C:09CC.*"
+
+cd /sys/class/leds
+FILES=("$DS4:*/brightness")
+for FILE in $FILES; do
+    if [[ $(stat -c "%a" $FILE) != 777 ]]; then
+        chmod 777 $FILE
+    fi
+done
+
+if [[ $# > 0 ]]; then
+    case "$1" in
+        "blue")
+            echo 0 > $DS4:red/brightness
+            echo 0 > $DS4:green/brightness
+            echo 150 > $DS4:blue/brightness
+            ;;
+        "green")
+            echo 0 > $DS4:red/brightness
+            echo 150 > $DS4:green/brightness
+            echo 0 > $DS4:blue/brightness
+            ;;
+        *)
+            echo $1 > $DS4:red/brightness
+            ;;
+    esac
+fi
+if [[ $# > 1 ]]; then
+    echo $2 > $DS4:green/brightness
+fi
+if [[ $# > 2 ]]; then
+    echo $3 > $DS4:blue/brightness
+fi

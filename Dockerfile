@@ -26,6 +26,10 @@ RUN apt-get update && apt-get install -y \
 #Install ds4drv
 RUN pip3 install ds4drv
 
+# After installing ds4drv
+COPY scripts/ds4led /usr/local/bin/
+RUN chmod +x /usr/local/bin/ds4led
+
 #Enable Bluetooth permissions for the container
 RUN usermod -aG bluetooth root
 

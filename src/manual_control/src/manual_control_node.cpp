@@ -54,8 +54,13 @@ private:
     button_pressed_ = joy->buttons[lb_button_idx_];
 
     // If the LB button is pressed, ignore the joystick commands and use the autonomous driving commands
-    if (button_pressed_ && !joy->buttons[rb_button_idx_])
-        return;
+    if (button_pressed_ && !joy->buttons[rb_button_idx_]){
+      system("ds4led green");
+      RCLCPP_INFO(this->get_logger(), "Autonomous driving activated");
+      return;
+    } else if{
+      system("ds4led blue");
+    }
 
     ackermann_msgs::msg::AckermannDriveStamped ackermann_msg;
     ackermann_msg.header.stamp = this->now();
@@ -72,15 +77,6 @@ private:
 
     // Publish the Ackermann command
     ackermann_pub_->publish(ackermann_msg);
-    /*
-    if (joy->buttons[0] == 1) {
-      system("ds4drv --led=255,0,0");
-      RCLCPP_INFO(this.get_logger(), "Manual mode enabled, light turned red");
-    }
-    else  if (joy->buttons[1] == 1) {
-      system("ds4drv --led=0,255,0");
-      RCLCPP_INFO(this.get_logger(), "Manual mode disabled, light turned green");
-    }*/
 
     if (joy->axes[7] == 1.0 && prev_drive_multiplier_button_value_ == 0.0){
       drive_multiplier_ += 0.05;
@@ -97,18 +93,6 @@ private:
       RCLCPP_INFO(this->get_logger(), "Killed async_slam_tool and vesc_to_odom_node");
     }
     kill_button_prev_ = joy->buttons[1];
-
-    // Change LED color based on LB button state (button_pressed_)
-    if (joy->buttons[lb_button_idx_] && !prev_lb_state_) {
-        // LB just pressed - change to green for autonomous mode
-        system("ds4drv --led=0,255,0");
-        RCLCPP_INFO(this->get_logger(), "Autonomous mode enabled, LED turned green");
-    } else if (!joy->buttons[lb_button_idx_] && prev_lb_state_) {
-        // LB just released - change back to blue for manual mode
-        system("ds4drv --led=0,0,255");
-        RCLCPP_INFO(this->get_logger(), "Manual mode enabled, LED turned blue");
-    }
-    prev_lb_state_ = joy->buttons[lb_button_idx_];
   }
 
   // Callback function for autonomous driving messages
