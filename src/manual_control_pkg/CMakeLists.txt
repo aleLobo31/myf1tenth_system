@@ -15,9 +15,9 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-# find dependencies
+# Find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(rclcpp)
+find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
@@ -35,6 +35,7 @@ add_executable(manual_control_node
   src/main.cpp
   src/manual_control_node.cpp
 )
+
 # Link dependencies
 ament_target_dependencies(manual_control_node 
   rclcpp 
@@ -42,28 +43,27 @@ ament_target_dependencies(manual_control_node
   sensor_msgs 
   geometry_msgs 
   ackermann_msgs 
-  joy)
+  joy
+)
 
-#install targets
-install(
-  TARGETS manual_control_node
+# Install targets
+install(TARGETS 
+  manual_control_node
   DESTINATION lib/${PROJECT_NAME}
 )
 
-#install include directories
-install(
-  DIRECTORY include/
+# Install include directories
+install(DIRECTORY 
+  include/
   DESTINATION include/${PROJECT_NAME}
 )
 
-#install launch files
-install(
-  DIRECTORY launch/
+# Install launch and config files
+install(DIRECTORY 
+  launch/
+  config/
   DESTINATION share/${PROJECT_NAME}/
 )
-
-
-
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -75,6 +75,5 @@ if(BUILD_TESTING)
   #set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
-
 
 ament_package()
