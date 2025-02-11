@@ -105,7 +105,7 @@ def generate_launch_description():
     )
 
     manual_control_node = Node(
-        package='manual_control',
+        package='manual_control_pkg',
         executable='manual_control_node',
         name='manual_control_node',
         output='screen',

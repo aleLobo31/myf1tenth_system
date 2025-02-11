@@ -113,7 +113,7 @@ size_t ReactiveFollowerNode::find_best_point(const std::vector<float> &ranges, s
     if (gap_start > gap_end) return gap_start;
     
     // Find furthest point in gap
-    size_t best_idx = gap_start;
+ /*   size_t best_idx = gap_start;
     float max_range = ranges[gap_start];
     
     for (size_t i = gap_start; i <= gap_end; i++) {
@@ -122,7 +122,7 @@ size_t ReactiveFollowerNode::find_best_point(const std::vector<float> &ranges, s
             best_idx = i;
         }
     }
-    
+   */ 
 //    return best_idx;
 
   size_t best_aux = (gap_start + gap_end)/2;
