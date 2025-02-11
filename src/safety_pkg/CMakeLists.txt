@@ -18,11 +18,9 @@ endif()
 # Find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
-find_package(geometry_msgs REQUIRED)
-find_package(ackermann_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
+find_package(ackermann_msgs REQUIRED)
 
 # Include directories
 include_directories(
@@ -30,20 +28,25 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME}
 )
 
+# Add utility source files
+set(UTILITY_SOURCES
+  src/ttc_calculator.cpp
+  # Add other utility files here
+)
+
 # Create the node executable
 add_executable(safety_node 
   src/main.cpp
   src/safety_node.cpp
+  ${UTILITY_SOURCES}
 )
 
 # Link dependencies
 ament_target_dependencies(safety_node 
   rclcpp 
-  std_msgs 
   sensor_msgs 
-  geometry_msgs 
-  ackermann_msgs 
-  nav_msgs
+  nav_msgs 
+  ackermann_msgs
 )
 
 # Install targets
