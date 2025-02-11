@@ -163,10 +163,3 @@ void ReactiveFollowerNode::lidar_callback(const sensor_msgs::msg::LaserScan::Con
     drive_msg.drive.steering_angle = steering_angle;
     drive_publisher_->publish(drive_msg);
 }
-
-int main(int argc, char **argv) {
-    rclcpp::init(argc, argv);
-    rclcpp::spin(std::make_shared<ReactiveFollowerNode>());
-    rclcpp::shutdown();
-    return 0;
-}

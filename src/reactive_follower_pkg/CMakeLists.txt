@@ -27,7 +27,10 @@ find_package(std_msgs REQUIRED)
 include_directories(include/ reactive_follower_pkg)
 
 # Create Cpp executable
-add_executable(reactive_follower_node src/reactive_follower_node.cpp)
+add_executable(reactive_follower_node 
+  src/main.cpp
+  src/reactive_follower_node.cpp
+)
 ament_target_dependencies(reactive_follower_node rclcpp geometry_msgs ackermann_msgs nav_msgs sensor_msgs std_msgs)
 
 # Install Cpp executables
