@@ -1,7 +1,12 @@
 cmake_minimum_required(VERSION 3.5)
 project(reactive_follower_pkg)
 
-# Default to C++14
+# Default to C99
+if(NOT CMAKE_C_STANDARD)
+  set(CMAKE_C_STANDARD 99)
+endif()
+
+# Default to C++17
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 17)
 endif()
@@ -10,45 +15,54 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-# find dependencies
-# uncomment the following section in order to fill in
-# further dependencies manually.
-# find_package(<dependency> REQUIRED)
+# Find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(geometry_msgs REQUIRED)
-find_package(nav_msgs REQUIRED)
-find_package(ackermann_msgs REQUIRED)
-find_package(sensor_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(ackermann_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
 
+# Include directories
+include_directories(
+  include
+  ${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME}
+)
 
-# Include Cpp "include" directory
-include_directories(include/ reactive_follower_pkg)
-
-# Create Cpp executable
+# Create the node executable
 add_executable(reactive_follower_node 
   src/main.cpp
   src/reactive_follower_node.cpp
 )
-ament_target_dependencies(reactive_follower_node rclcpp geometry_msgs ackermann_msgs nav_msgs sensor_msgs std_msgs)
 
-# Install Cpp executables
-install(TARGETS
-  reactive_follower_node
-  DESTINATION lib/${PROJECT_NAME})
-
-# Install launch files
-install(DIRECTORY
-  launch
-  DESTINATION share/${PROJECT_NAME}
+# Link dependencies
+ament_target_dependencies(reactive_follower_node 
+  rclcpp 
+  std_msgs 
+  sensor_msgs 
+  geometry_msgs 
+  ackermann_msgs 
+  nav_msgs
 )
 
-# Install config files
-install(DIRECTORY
-  config
-  launch
-  DESTINATION share/${PROJECT_NAME}
+# Install targets
+install(TARGETS 
+  reactive_follower_node
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+# Install include directories
+install(DIRECTORY 
+  include/
+  DESTINATION include/${PROJECT_NAME}
+)
+
+# Install launch and config files
+install(DIRECTORY 
+  launch/
+  config/
+  DESTINATION share/${PROJECT_NAME}/
 )
 
 if(BUILD_TESTING)
