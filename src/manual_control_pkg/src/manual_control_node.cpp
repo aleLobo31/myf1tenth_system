@@ -59,10 +59,10 @@ void ManualControlNode::joyCallback(const sensor_msgs::msg::Joy::SharedPtr joy) 
     button_pressed_ = joy->buttons[lb_button_idx_];
 
     if (button_pressed_ && !joy->buttons[rb_button_idx_]) {
-        system("ds4led green");
+//        system("ds4led green");
         return;
-    } else {
-        system("ds4led blue");
+//    } else {
+//        system("ds4led blue");
     }
 
     auto ackermann_msg = ackermann_msgs::msg::AckermannDriveStamped();
