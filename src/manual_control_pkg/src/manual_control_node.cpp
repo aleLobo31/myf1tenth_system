@@ -1,5 +1,7 @@
 #include "manual_control_pkg/manual_control_node.hpp"
 
+#define DS4_PATH "/sys/class/leds/0005:054C:09CC"  // Adjust
+
 ManualControlNode::ManualControlNode() : Node("manual_control_node"){
     // Declare and retrieve parameters
     this->declare_parameter<int>("lb_button_idx", 4);
@@ -49,6 +51,26 @@ float ManualControlNode::linear_map(float x, float in_min, float in_max, float o
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
+
+void setDS4LED(int red, int green, int blue) {
+    std::ofstream red_led(DS4_PATH ":1:red/brightness");
+    std::ofstream green_led(DS4_PATH ":1:green/brightness");
+    std::ofstream blue_led(DS4_PATH ":1:blue/brightness");
+
+    if (!red_led || !green_led || !blue_led) {
+        std::cerr << "Failed to access DualShock LED files!" << std::endl;
+        return;
+    }
+
+    red_led << red;
+    green_led << green;
+    blue_led << blue;
+
+    red_led.close();
+    green_led.close();
+    blue_led.close();
+}
+
 void ManualControlNode::joyCallback(const sensor_msgs::msg::Joy::SharedPtr joy) {
     std_msgs::msg::Int8 enable_button_publish;
     enable_button_publish.data = joy->buttons[0];
@@ -59,10 +81,10 @@ void ManualControlNode::joyCallback(const sensor_msgs::msg::Joy::SharedPtr joy) 
     button_pressed_ = joy->buttons[lb_button_idx_];
 
     if (button_pressed_ && !joy->buttons[rb_button_idx_]) {
-//        system("ds4led green");
+        setDS4LED(0,150,0);
         return;
-//    } else {
-//        system("ds4led blue");
+    } else {
+        setDS4LED(0,0,150);
     }
 
     auto ackermann_msg = ackermann_msgs::msg::AckermannDriveStamped();
