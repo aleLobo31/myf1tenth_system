@@ -43,6 +43,9 @@ ManualControlNode::ManualControlNode() : Node("manual_control_node"){
     enable_button1_pub_ = this->create_publisher<std_msgs::msg::Int8>("/enable_1", 10);
 
     drive_multiplier_ = 1.0;
+    button_pressed_ = false;
+    prev_drive_multiplier_button_value_ = 0.0;
+    kill_button_prev_ = 0;
 
     RCLCPP_INFO(get_logger(), "Manual control node initialized");
 }
