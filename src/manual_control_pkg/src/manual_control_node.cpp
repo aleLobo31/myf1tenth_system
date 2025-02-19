@@ -55,7 +55,7 @@ float ManualControlNode::linear_map(float x, float in_min, float in_max, float o
 }
 
 
-void setDS4LED(int red, int green, int blue) {
+void ManualControlNode::setDS4LED(int red, int green, int blue) {
     std::ofstream red_led(DS4_PATH ":1:red/brightness");
     std::ofstream green_led(DS4_PATH ":1:green/brightness");
     std::ofstream blue_led(DS4_PATH ":1:blue/brightness");
@@ -133,3 +133,4 @@ void ManualControlNode::driveCallback(const ackermann_msgs::msg::AckermannDriveS
     }
 }
 
+    

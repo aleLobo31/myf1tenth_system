@@ -68,6 +68,12 @@ RUN apt-get update && apt-get install -y ros-foxy-joy
 # Install other required dependencies
 RUN apt install -y ros-foxy-diagnostics
 
+#Install SLAM toolbox
+RUN apt install -y ros-foxy-slam-toolbox
+
+#Install RVIZ2
+RUN apt install -y ros-foxy-rviz2
+
 SHELL ["/bin/bash", "-c"]
 
 RUN source /opt/ros/foxy/setup.bash && colcon build
