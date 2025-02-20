@@ -13,14 +13,14 @@ def generate_launch_description():
     rviz2_config = os.path.join(
         get_package_share_directory('f1tenth_stack'),
         'config',
-        'rviz.yaml'
+        'main.rviz'
     )
 
     # Declare launch arguments
     rviz_la = DeclareLaunchArgument(
         'rviz_config',
         default_value=rviz_config,
-        description='Descriptions for rviz configs'
+        description='Descriptions for rviz configs'@
     )
 
     ld = LaunchDescription([rviz_la])
