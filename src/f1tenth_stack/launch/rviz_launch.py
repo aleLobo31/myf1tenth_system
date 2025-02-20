@@ -18,9 +18,9 @@ def generate_launch_description():
 
     # Declare launch arguments
     rviz_la = DeclareLaunchArgument(
-        'rviz_config',
-        default_value=rviz_config,
-        description='Descriptions for rviz configs'@
+        'rviz2_config',
+        default_value=rviz2_config,
+        description='Descriptions for rviz configs'
     )
 
     ld = LaunchDescription([rviz_la])
@@ -30,8 +30,8 @@ def generate_launch_description():
         executable='rviz2',
         name='rviz2',
         output='screen',
-        arguments=['-d', LaunchConfiguration('rviz_config')],
-        )
+        arguments=['-d', LaunchConfiguration('rviz2_config')],
+    )
 
     # finalize
     ld.add_action(rviz2_node)

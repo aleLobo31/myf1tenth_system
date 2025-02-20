@@ -9,7 +9,7 @@ docker run -it --privileged --net=host \
     --env DISPLAY=$DISPLAY \
     --volume /tmp/.X11-unix:/tmp/.X11-unix \
     --volume=./src/f1tenth_stack:/root/f1tenth_ws/src/f1tenth_stack  \
-    --volume=./src/manual_control:/root/f1tenth_ws/src/manual_control \
+    --volume=./src/manual_control_pkg:/root/f1tenth_ws/src/manual_control_pkg \
     --volume=./src/safety_pkg:/root/f1tenth_ws/src/safety_pkg \
     --volume=./src/reactive_follower_pkg:/root/f1tenth_ws/src/reactive_follower_pkg \
     f1tenth-system
