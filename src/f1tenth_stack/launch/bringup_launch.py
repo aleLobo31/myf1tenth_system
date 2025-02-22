@@ -62,7 +62,11 @@ def generate_launch_description():
         'config',
         'reactive_follower.yaml'
     )
-
+    mapping_config = os.path.join(
+        get_package_share_directory('f1tenth_stack'),
+        'config',
+        'mapping.yaml'
+    )
     # Declare launch arguments
     vesc_la = DeclareLaunchArgument(
         'vesc_config',
@@ -94,8 +98,13 @@ def generate_launch_description():
          default_value=reactive_follower_config,
          description='Descriptions for reactive_follower configs'
     )
+    mapping_la = DeclareLaunchArgument(
+        'mapping_config',
+         default_value=mapping_config,
+         description='Descriptions for mapping configs'
+    )
 
-    ld = LaunchDescription([vesc_la, lidar_la, imu_la, manual_control_la, safety_la, reactive_follower_la])
+    ld = LaunchDescription([vesc_la, lidar_la, imu_la, manual_control_la, safety_la, reactive_follower_la, mapping_la])
 
     joy_node = Node(
         package='joy',
@@ -161,6 +170,13 @@ def generate_launch_description():
         name='reactive_follower_node',
         parameters=[LaunchConfiguration('reactive_follower_config')]
         )
+    mapping_node = Node(
+        package='slam_toolbox',
+        executable='async_slam_toolbox_node',
+        name='async_slam_toolbox_node',
+        output='screen',
+        parameters=[LaunchConfiguration('mapping_config')]
+        )
 
     # finalize
     ld.add_action(joy_node)
@@ -171,7 +187,7 @@ def generate_launch_description():
     ld.add_action(ldlidar_stl_ros2)
     #ld.add_action(razor_imu_ros2)
     ld.add_action(static_tf_node)
-    ld.add_action(safety_node)
-    ld.add_action(reactive_follower_node)
-
+    #ld.add_action(safety_node)
+    #ld.add_action(reactive_follower_node)
+    ld.add_action(mapping_node)
     return ld
