@@ -65,7 +65,7 @@ def generate_launch_description():
     mapping_config = os.path.join(
         get_package_share_directory('f1tenth_stack'),
         'config',
-        'mapping.yaml'
+        'mapper_params_online_async.yaml'
     )
     # Declare launch arguments
     vesc_la = DeclareLaunchArgument(
