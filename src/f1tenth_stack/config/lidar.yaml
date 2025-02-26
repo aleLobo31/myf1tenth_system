@@ -2,7 +2,7 @@
   ros__parameters:
     product_name: 'LDLiDAR_LD19'
     topic_name: 'scan'
-    frame_id: 'base_laser'
+    frame_id: 'laser'
     port_name: '/dev/sensors/lidar'
     port_baudrate: 230400
     laser_scan_dir: False
