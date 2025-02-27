@@ -10,7 +10,7 @@ TFPublisherNode::TFPublisherNode() : Node("tf_publisher_node") {
     this->declare_parameter("laser_z", 0.0);
     this->declare_parameter("laser_roll", 0.0);
     this->declare_parameter("laser_pitch", 0.0);
-    this->declare_parameter("laser_yaw", 0.0);
+    this->declare_parameter("laser_yaw", -1.5708);
 
     base_link_frame_ = this->get_parameter("base_link_frame").as_string();
     laser_frame_ = this->get_parameter("laser_frame").as_string();
