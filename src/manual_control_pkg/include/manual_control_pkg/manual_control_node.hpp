@@ -48,7 +48,7 @@ private:
 
     // Helper functions
     float linear_map(float x, float in_min, float in_max, float out_min, float out_max);
-    void setDS4LED(int red, int green, int blue);
+    //void setDS4LED(int red, int green, int blue);
 };
 
 #endif // MANUAL_CONTROL_NODE_HPP_

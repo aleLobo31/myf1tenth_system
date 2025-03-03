@@ -1,6 +1,6 @@
 #include "manual_control_pkg/manual_control_node.hpp"
 
-#define DS4_PATH "/sys/class/leds/0005:054C:09CC"  // Adjust
+//#define DS4_PATH "/sys/class/leds/0005:054C:09CC"  // Adjust
 
 ManualControlNode::ManualControlNode() : Node("manual_control_node"){
     // Declare and retrieve parameters
@@ -54,7 +54,7 @@ float ManualControlNode::linear_map(float x, float in_min, float in_max, float o
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
-
+/*
 void ManualControlNode::setDS4LED(int red, int green, int blue) {
     std::ofstream red_led(DS4_PATH ":1:red/brightness");
     std::ofstream green_led(DS4_PATH ":1:green/brightness");
@@ -73,6 +73,7 @@ void ManualControlNode::setDS4LED(int red, int green, int blue) {
     green_led.close();
     blue_led.close();
 }
+*/
 
 void ManualControlNode::joyCallback(const sensor_msgs::msg::Joy::SharedPtr joy) {
     std_msgs::msg::Int8 enable_button_publish;
@@ -84,10 +85,10 @@ void ManualControlNode::joyCallback(const sensor_msgs::msg::Joy::SharedPtr joy) 
     button_pressed_ = joy->buttons[lb_button_idx_];
 
     if (button_pressed_ && !joy->buttons[rb_button_idx_]) {
-        setDS4LED(0,150,0);
+        //setDS4LED(0,150,0);
         return;
     } else {
-        setDS4LED(0,0,150);
+        //setDS4LED(0,0,150);
     }
 
     auto ackermann_msg = ackermann_msgs::msg::AckermannDriveStamped();
@@ -118,11 +119,12 @@ void ManualControlNode::joyCallback(const sensor_msgs::msg::Joy::SharedPtr joy) 
         RCLCPP_INFO(this->get_logger(), "multiplier changed to %f", drive_multiplier_);
     }
     prev_drive_multiplier_button_value_ = joy->axes[7];
-
+/*
     if (kill_button_prev_ == 0 && joy->buttons[1] == 1) {
         system("pkill async_slam_tool && pkill vesc_to_odom_node");
         RCLCPP_INFO(this->get_logger(), "Killed async_slam_tool and vesc_to_odom_node");
     }
+*/
     kill_button_prev_ = joy->buttons[1];
 }
 

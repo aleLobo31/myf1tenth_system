@@ -65,7 +65,7 @@ def generate_launch_description():
     mapping_config = os.path.join(
         get_package_share_directory('f1tenth_stack'),
         'config',
-        'mapper_params_online_async.yaml'
+        'mapping.yaml'
     )
     # Declare launch arguments
     vesc_la = DeclareLaunchArgument(
@@ -156,7 +156,7 @@ def generate_launch_description():
         package='tf2_ros',
         executable='static_transform_publisher',
         name='static_baselink_to_laser',
-        arguments=['0', '0', '0', '-1.5708', '0', '0', 'base_link', 'laser']
+        arguments=['0', '0', '0', '0', '0', '0', 'base_footprint', 'laser']
         )
     safety_node = Node(
         package='safety_pkg',
@@ -177,8 +177,15 @@ def generate_launch_description():
         output='screen',
         parameters=[LaunchConfiguration('mapping_config')]
         )
+    tf_publisher_node = Node(
+        package='f1tenth_stack',
+        executable='tf_publisher_node',
+        name='tf_publisher_node',
+        output='screen'
+        )
 
     # finalize
+    #ld.add_action(tf_publisher_node)
     ld.add_action(joy_node)
     ld.add_action(manual_control_node)
     ld.add_action(ackermann_to_vesc_node)
@@ -186,7 +193,7 @@ def generate_launch_description():
     ld.add_action(vesc_driver_node)
     ld.add_action(ldlidar_stl_ros2)
     #ld.add_action(razor_imu_ros2)
-    #ld.add_action(static_tf_node)
+    ld.add_action(static_tf_node)
     #ld.add_action(safety_node)
     #ld.add_action(reactive_follower_node)
     ld.add_action(mapping_node)
