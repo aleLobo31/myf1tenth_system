@@ -9,3 +9,10 @@
     enable_angle_crop_func: False
     angle_crop_min: 225.0
     angle_crop_max: 315.0
+    bins: 450
+    enable_box_crop_func: False
+    x_crop_min: 0.0
+    x_crop_max: 0.0
+    y_crop_min: 0.0
+    y_crop_max: 0.0
+    pub_rate: 10.0

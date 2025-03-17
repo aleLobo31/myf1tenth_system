@@ -189,5 +189,5 @@ def generate_launch_description():
     ld.add_action(static_tf_node)
     #ld.add_action(safety_node)
     #ld.add_action(reactive_follower_node)
-    ld.add_action(mapping_node)
+    #ld.add_action(mapping_node)
     return ld

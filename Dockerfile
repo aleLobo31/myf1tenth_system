@@ -50,7 +50,7 @@ RUN git clone https://github.com/ros-drivers/transport_drivers.git && \
     git clone -b foxy https://github.com/f1tenth/vesc.git
    
 # Install LIDAR Drivers
-RUN git clone https://github.com/ldrobotSensorTeam/ldlidar_stl_ros2.git
+RUN git clone https://github.com/rudislabs/ldlidar_stl_ros2.git
 
 # Install IMU
 RUN git clone https://github.com/JaimeG-ELC/razor_imu_ros2.git
