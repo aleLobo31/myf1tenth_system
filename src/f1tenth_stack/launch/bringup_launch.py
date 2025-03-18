@@ -156,7 +156,7 @@ def generate_launch_description():
         package='tf2_ros',
         executable='static_transform_publisher',
         name='static_basefootprint_to_laser',
-        arguments=['0', '0', '0', '0', '0', '0', 'base_footprint', 'laser']
+        arguments=['0.2', '0', '0.1', '-1.57', '0', '3.14', 'base_footprint', 'laser']
         )
     static_tf_baselink_basefootprint_node = Node(
         package='tf2_ros',
@@ -198,7 +198,7 @@ def generate_launch_description():
     ld.add_action(vesc_to_odom_node)
     ld.add_action(vesc_driver_node)
     ld.add_action(ldlidar_stl_ros2)
-    #ld.add_action(razor_imu_ros2)
+    ld.add_action(razor_imu_ros2)
     ld.add_action(static_tf_basefootprint_laser_node)
     ld.add_action(static_tf_baselink_basefootprint_node)
     #ld.add_action(safety_node)

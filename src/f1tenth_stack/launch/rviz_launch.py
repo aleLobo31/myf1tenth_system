@@ -13,7 +13,7 @@ def generate_launch_description():
     rviz2_config = os.path.join(
         get_package_share_directory('f1tenth_stack'),
         'config',
-        'main1.rviz'
+        'mapa.rviz'
     )
 
     # Declare launch arguments
