@@ -46,6 +46,10 @@ class PurePursuit : public rclcpp::Node
 
         // Parameters
         double lookahead_dist;
+        double min_lookahead_dist;
+        double max_lookahead_dist;
+        double lookahead_ratio;
+        double max_speed;
         double Kp;
         double max_steering_angle;
          

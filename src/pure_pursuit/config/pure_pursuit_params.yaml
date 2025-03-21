@@ -1,6 +1,10 @@
 /**:
   ros__parameters:
-    lookahed_dist: 1.5
+    lookahed_dist: 0.5
+    min_lookahead_dist: 0.5
+    max_lookahead_dist: 4.0
+    lookahead_ratio: 10.0
+    max_speed: 4.0
     kp: 0.3
     max_steering_angle: 0.7
     n_pathpoints: 123  

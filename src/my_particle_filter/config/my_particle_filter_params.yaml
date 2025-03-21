@@ -1,0 +1,4 @@
+/**:
+  ros__parameters:
+    odom_topic: "/ego_racecar/odom"
+    max_particles: 1
