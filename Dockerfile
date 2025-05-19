@@ -55,6 +55,17 @@ RUN git clone https://github.com/rudislabs/ldlidar_stl_ros2.git
 # Install IMU
 RUN git clone https://github.com/JaimeG-ELC/razor_imu_ros2.git
 
+
+#Install Particle Filter repo
+RUN git clone -b foxy-devel https://github.com/f1tenth/particle_filter.git
+
+WORKDIR /root/f1tenth_ws/src/particle_filter
+RUN pip3 install cython && \
+    git clone -b foxy-devel https://github.com/f1tenth/range_libc.git
+
+WORKDIR /root/f1tenth_ws/src/particle_filter/range_libc/pywrapper
+RUN chmod +x compile.sh && ./compile.sh; 
+
 WORKDIR /root/f1tenth_ws
 
 # Install the associated dependencies
