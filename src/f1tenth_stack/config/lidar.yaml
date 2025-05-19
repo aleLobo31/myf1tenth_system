@@ -5,7 +5,7 @@
     frame_id: 'laser'
     port_name: '/dev/sensors/lidar'
     port_baudrate: 230400
-    laser_scan_dir: False
+    laser_scan_dir: True
     enable_angle_crop_func: False
     angle_crop_min: 225.0
     angle_crop_max: 315.0
