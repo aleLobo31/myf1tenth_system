@@ -1,0 +1,16 @@
+/**:
+  ros__parameters:
+    lookahed_dist: 0.5
+    min_lookahead_dist: 0.5
+    max_lookahead_dist: 4.0
+    lookahead_ratio: 10.0
+    max_speed: 4.0
+    kp: 0.3
+    max_steering_angle: 0.7
+    n_pathpoints: 123  
+    window_size: 25
+    csv_path: "/sim_ws/src/pure_pursuit/racelines/waypoints_odom_3.csv"
+    map_frame: "map"
+    car_frame: "ego_racecar/base_link"
+    odom_topic: "/ego_racecar/odom"
+    drive_topic: "/drive"
