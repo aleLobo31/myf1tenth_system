@@ -18,6 +18,9 @@ RUN apt-get update && apt-get install -y \
     bluez \
     bluez-tools \
     python3-pip \
+    python3-dev \
+    python3-numpy \
+    cython3 \
     libhidapi-dev \
     libusb-1.0-0-dev \
     dbus \
@@ -60,11 +63,12 @@ RUN git clone https://github.com/JaimeG-ELC/razor_imu_ros2.git
 RUN git clone -b foxy-devel https://github.com/f1tenth/particle_filter.git
 
 WORKDIR /root/f1tenth_ws/src/particle_filter
-RUN pip3 install cython && \
+RUN apt-get update && apt-get install -y python3-dev build-essential && \
+    pip3 install cython && \
     git clone -b foxy-devel https://github.com/f1tenth/range_libc.git
 
 WORKDIR /root/f1tenth_ws/src/particle_filter/range_libc/pywrapper
-RUN chmod +x compile.sh && ./compile.sh; 
+RUN chmod +x compile.sh && ./compile.sh
 
 WORKDIR /root/f1tenth_ws
 
