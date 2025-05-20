@@ -29,20 +29,25 @@ import os
 import yaml
 
 def generate_launch_description():
-    # config and args
-    localize_config = os.path.join(
+  # Get the config file path
+    config_dir = os.path.join(
         get_package_share_directory('f1tenth_stack'),
-        'config',
-        'localize.yaml'
+        'config'
     )
-    localize_config_dict = yaml.safe_load(open(localize_config, 'r'))
-    map_name = localize_config_dict['map_server']['ros__parameters']['map']
-    localize_la = DeclareLaunchArgument(
-        'localize_config',
-        default_value=localize_config,
-        description='Localization configs')
-    ld = LaunchDescription([localize_la])
+    localize_config = os.path.join(config_dir, 'localize.yaml')
 
+    # Load YAML to extract the map name
+    with open(localize_config, 'r') as f:
+        localize_config_dict = yaml.safe_load(f)
+    map_name = localize_config_dict['map_server']['ros__parameters']['map']
+
+    # Get map file path
+    map_yaml = os.path.join(
+        get_package_share_directory('f1tenth_stack'),
+        'maps',
+        map_name + '.yaml'
+    )
+    
     # nodes
     pf_node = Node(
         package='particle_filter',
@@ -54,7 +59,7 @@ def generate_launch_description():
         package='nav2_map_server',
         executable='map_server',
         name='map_server',
-        parameters=[{'yaml_filename': os.path.join(get_package_share_directory('particle_filter'), 'maps', map_name + '.yaml')},
+        parameters=[{'yaml_filename': os.path.join(get_package_share_directory('f1tenth_stack'), 'maps', map_name + '.yaml')},
                     {'topic': 'map'},
                     {'frame_id': 'map'},
                     {'output': 'screen'},
