@@ -37,7 +37,5 @@ A collaborative project to develop and simulate autonomous racing algorithms for
 `./launch_container.sh`
 
 Everytime the container is going to be launched the image does not have to be rebuilt
-If a file (used in the container) is modified, for the changes to be applied, the image must be rebuilt.
 
-
-
+A controller has to be connected in order to use several pakages
