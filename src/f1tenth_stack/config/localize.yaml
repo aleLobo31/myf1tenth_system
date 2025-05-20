@@ -32,5 +32,5 @@ particle_filter:
 
 map_server:
   ros__parameters:
-    # assuming map file is in particle_filter/maps
+    # assuming map file is in f1tenth_maps/maps
     map: 'circular_salon'
