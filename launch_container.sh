@@ -7,6 +7,7 @@ docker run -it --privileged --net=host \
     --device /dev/sensors/imu:/dev/sensors/imu \
     --device /dev/input/js0:/dev/input/js0 \
     --env DISPLAY=$DISPLAY \
+    --env ROS_DOMAIN_ID=9 \
     --volume /tmp/.X11-unix:/tmp/.X11-unix \
     --volume ~/.Xauthority:/root/.Xauthority \
     --volume=./src/f1tenth_stack:/root/f1tenth_ws/src/f1tenth_stack  \
