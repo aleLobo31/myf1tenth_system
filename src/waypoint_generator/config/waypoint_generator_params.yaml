@@ -1,6 +1,6 @@
 /**:
   ros__parameters:
-    csv_path : "/sim_ws/src/waypoint_generator/src/waypoints_odom.csv"
+    csv_path : "/sim_ws/src/pure_pursuit_pkg/racelines/waypoints_odom_v0.csv"
     odom_topic : "/ego_racecar/odom"
     min_distance : 0.5
     prev_x : 0.0
