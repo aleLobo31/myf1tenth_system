@@ -8,7 +8,7 @@ from ament_index_python.packages import get_package_share_directory
 def generate_launch_description():
 
     waypoint_generator_config = os.path.join(
-        get_package_share_directory('waypoint_generator_pkg'),
+        get_package_share_directory('waypoint_generator'),
         'config',
         'waypoint_generator_params.yaml'
     )
@@ -19,9 +19,9 @@ def generate_launch_description():
     )
 
     ld = LaunchDescription([waypoint_generator_la])
-    
+
     waypoint_generator_node = Node(
-        package="waypoint_generator_pkg",
+        package="waypoint_generator",
         executable="waypoint_generator_node",
         name="waypoint_generator_node",
         parameters=[LaunchConfiguration('waypoint_generator_config')]
