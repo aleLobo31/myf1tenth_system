@@ -15,7 +15,7 @@ PurePursuit::PurePursuit() : Node("pure_pursuit_node")
     this->declare_parameter<int>("window_size", 25);
     this->declare_parameter<std::string>("csv_path", "/sim_ws/src/pure_pursuit/racelines/waypoints_odom_3.csv");
     this->declare_parameter<std::string>("map_frame", "map");
-    this->declare_parameter<std::string>("car_frame", "ego_racecar/base_link");
+    this->declare_parameter<std::string>("car_frame", "base_link");
     this->declare_parameter<std::string>("odom_topic", "/ego_racecar/odom");
     this->declare_parameter<std::string>("drive_topic", "/drive");
 
@@ -34,6 +34,22 @@ PurePursuit::PurePursuit() : Node("pure_pursuit_node")
     car_frame = this->get_parameter("car_frame").as_string();
     odom_topic = this->get_parameter("odom_topic").as_string();
     ack_topic = this->get_parameter("drive_topic").as_string();
+
+    RCLCPP_INFO(this->get_logger(), "Pure Pursuit Node has started.");
+    RCLCPP_INFO(this->get_logger(), "CSV Path: %s", csv_path.c_str());
+    RCLCPP_INFO(this->get_logger(), "Odom Topic: %s", odom_topic.c_str());
+    RCLCPP_INFO(this->get_logger(), "Drive Topic: %s", ack_topic.c_str());
+    RCLCPP_INFO(this->get_logger(), "Map Frame: %s", map_frame.c_str());    
+    RCLCPP_INFO(this->get_logger(), "Car Frame: %s", car_frame.c_str());
+    RCLCPP_INFO(this->get_logger(), "Lookahead Distance: %f", lookahead_dist);
+    RCLCPP_INFO(this->get_logger(), "Minimum Lookahead Distance: %f", min_lookahead_dist);
+    RCLCPP_INFO(this->get_logger(), "Maximum Lookahead Distance: %f", max_lookahead_dist);  
+    RCLCPP_INFO(this->get_logger(), "Lookahead Ratio: %f", lookahead_ratio);
+    RCLCPP_INFO(this->get_logger(), "Max Speed: %f", max_speed);
+    RCLCPP_INFO(this->get_logger(), "Kp: %f", Kp);
+    RCLCPP_INFO(this->get_logger(), "Max Steering Angle: %f", max_steering_angle);
+    RCLCPP_INFO(this->get_logger(), "Number of Pathpoints: %d", n_pathpoints);
+    RCLCPP_INFO(this->get_logger(), "Window Size: %d", window_size);
 
     // Other required member variables
     graph_topic = "visualization_marker";

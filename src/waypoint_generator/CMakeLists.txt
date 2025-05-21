@@ -31,19 +31,19 @@ include_directories(
 )
 
 # Create the node executables
-add_executable(waypoint_generator
-  src/waypoint_generator.cpp
+add_executable(waypoint_generator_node
+  src/waypoint_generator_node.cpp
 )
 
 # Link dependencies for waypoint_generator
-ament_target_dependencies(waypoint_generator 
+ament_target_dependencies(waypoint_generator_node 
   rclcpp 
   nav_msgs
 )
 
 # Añadimos los ejecutables a la carpeta install
 install(TARGETS
-  waypoint_generator
+  waypoint_generator_node
   DESTINATION lib/${PROJECT_NAME} 
 )
 

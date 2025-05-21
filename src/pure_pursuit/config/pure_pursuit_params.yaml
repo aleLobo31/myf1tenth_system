@@ -1,16 +1,16 @@
 /**:
   ros__parameters:
-    lookahed_dist: 0.5
-    min_lookahead_dist: 0.5
-    max_lookahead_dist: 4.0
+    lookahead_dist: 0.1
+    min_lookahead_dist: 0.1
+    max_lookahead_dist: 0.5
     lookahead_ratio: 10.0
-    max_speed: 4.0
+    max_speed: 0.2
     kp: 0.3
-    max_steering_angle: 0.7
+    max_steering_angle: 0.9
     n_pathpoints: 123  
     window_size: 25
-    csv_path: "/sim_ws/src/pure_pursuit/racelines/waypoints_odom_3.csv"
+    csv_path: "/root/f1tenth_ws/src/pure_pursuit/racelines/waypoints_odom_v0.csv"
     map_frame: "map"
-    car_frame: "ego_racecar/base_link"
-    odom_topic: "/ego_racecar/odom"
+    car_frame: "laser"
+    odom_topic: "/odom"
     drive_topic: "/drive"
