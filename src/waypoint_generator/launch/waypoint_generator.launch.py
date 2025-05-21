@@ -18,6 +18,8 @@ def generate_launch_description():
         default_value=waypoint_generator_config
     )
 
+    ld = LaunchDescription([waypoint_generator_la])
+    
     waypoint_generator_node = Node(
         package="waypoint_generator_pkg",
         executable="waypoint_generator_node",
@@ -25,7 +27,7 @@ def generate_launch_description():
         parameters=[LaunchConfiguration('waypoint_generator_config')]
     )
 
-    ld = LaunchDescription([waypoint_generator_la])
+
 
     ld.add_action(waypoint_generator_node)
 
