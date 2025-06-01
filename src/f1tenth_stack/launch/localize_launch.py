@@ -89,4 +89,6 @@ def generate_launch_description():
     ld.add_action(map_server_node)
     ld.add_action(pf_node)
 
+    # The particle filter node must publish the map->odom transform for the correct TF tree: map->odom->base_link->laser
+
     return ld
