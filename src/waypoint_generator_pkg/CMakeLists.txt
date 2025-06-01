@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(waypoint_generator)
+project(waypoint_generator_pkg)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -22,6 +22,9 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(nav_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(visualization_msgs REQUIRED)
 
 
 # Include directories
@@ -35,15 +38,26 @@ add_executable(waypoint_generator_node
   src/waypoint_generator_node.cpp
 )
 
+add_executable(waypoint_visualizer_node
+  src/waypoint_visualizer_node.cpp
+)
+
 # Link dependencies for waypoint_generator
 ament_target_dependencies(waypoint_generator_node 
   rclcpp 
   nav_msgs
 )
 
+ament_target_dependencies(waypoint_visualizer_node
+  rclcpp
+  visualization_msgs
+  geometry_msgs
+)
+
 # Añadimos los ejecutables a la carpeta install
 install(TARGETS
   waypoint_generator_node
+  waypoint_visualizer_node
   DESTINATION lib/${PROJECT_NAME} 
 )
 

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(pure_pursuit)
+project(pure_pursuit_pkg)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -27,19 +27,42 @@ find_package(ackermann_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(visualization_msgs REQUIRED)
 
-# Inclumos Headers
-include_directories(include)
+# Incluir Headers
+include_directories(include
+  ${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME}
+)
 
 # Creamos los ejecutables
-add_executable(pure_pursuit src/pure_pursuit.cpp)
-ament_target_dependencies(pure_pursuit rclcpp tf2_ros nav_msgs ackermann_msgs geometry_msgs visualization_msgs)
+add_executable(pure_pursuit_node 
+  src/pure_pursuit_node.cpp
+  )
+
+ament_target_dependencies(pure_pursuit 
+  rclcpp 
+  tf2_ros 
+  nav_msgs 
+  ackermann_msgs 
+  geometry_msgs 
+  visualization_msgs
+)
 
 # Añadimos los ejecutables a la carpeta install
 install(TARGETS
-  pure_pursuit
+  pure_pursuit_node
   DESTINATION lib/${PROJECT_NAME} 
 )
 
-install(DIRECTORY config launch racelines DESTINATION share/${PROJECT_NAME})
+install(DIRECTORY 
+  config 
+  launch
+  racelines 
+  DESTINATION 
+  share/${PROJECT_NAME}
+)
+
+if(BUILD_TESTING)
+  find_package(ament_lint_auto REQUIRED)
+  ament_lint_auto_find_test_dependencies()
+endif()
 
 ament_package()

@@ -1,4 +1,4 @@
-#include "pure_pursuit.hpp"
+#include "pure_pursuit_pkg/pure_pursuit_node.hpp"
 
 
 PurePursuit::PurePursuit() : Node("pure_pursuit_node")

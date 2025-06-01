@@ -8,7 +8,7 @@ from ament_index_python.packages import get_package_share_directory
 def generate_launch_description():
 
     pure_pursuit_config = os.path.join(
-        get_package_share_directory('pure_pursuit'),
+        get_package_share_directory('pure_pursuit_pkg'),
         'config',
         'pure_pursuit_params.yaml'
     )
@@ -19,8 +19,8 @@ def generate_launch_description():
     )
 
     pure_pursuit_node = Node(
-        package="pure_pursuit",
-        executable="pure_pursuit",
+        package="pure_pursuit_pkg",
+        executable="pure_pursuit_node",
         name="pure_pursuit_node",
         parameters=[LaunchConfiguration('pure_pursuit_config')]
     )

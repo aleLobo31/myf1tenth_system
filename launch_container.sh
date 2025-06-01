@@ -14,6 +14,6 @@ docker run -it --privileged --net=host \
     --volume=./src/manual_control_pkg:/root/f1tenth_ws/src/manual_control_pkg \
     --volume=./src/safety_pkg:/root/f1tenth_ws/src/safety_pkg \
     --volume=./src/reactive_follower_pkg:/root/f1tenth_ws/src/reactive_follower_pkg \
-    --volume=./src/waypoint_generator:/root/f1tenth_ws/src/waypoint_generator \
-    --volume=./src/pure_pursuit:/root/f1tenth_ws/src/pure_pursuit \
+    --volume=./src/waypoint_generator_pkg:/root/f1tenth_ws/src/waypoint_generator_pkg \
+    --volume=./src/pure_pursuit_pkg:/root/f1tenth_ws/src/pure_pursuit_pkg \
     f1tenth-system

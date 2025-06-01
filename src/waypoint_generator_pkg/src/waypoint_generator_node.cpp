@@ -1,10 +1,10 @@
-#include "waypoint_generator_node.hpp"
+#include "waypoint_generator_pkg/waypoint_generator_node.hpp"
 
 
 WayPointGenerator::WayPointGenerator() : Node("waypoint_generator_node")
 {
-    this->declare_parameter("csv_path", "f1tenth_ws/src/pure_pursuit/racelines/waypoints_odom_v0.csv");
-    this->declare_parameter("odom_topic", "/ego_racecar/odom");
+    this->declare_parameter("csv_path", "f1tenth_ws/src/pure_pursuit_pkg/racelines/waypoints_odom_v0.csv");
+    this->declare_parameter("odom_topic", "/odom");
     this->declare_parameter("min_distance", 0.5);
     this->declare_parameter("prev_x", 0.0);
     this->declare_parameter("prev_y", 0.0);

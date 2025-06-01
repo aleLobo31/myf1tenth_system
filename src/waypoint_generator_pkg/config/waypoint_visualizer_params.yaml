@@ -1,0 +1,6 @@
+/**:
+  ros__parameters:
+    csv_file_path: "f1tenth_ws/src/pure_pursuit_pkg/racelines/waypoints.csv"  # Update this path
+    frame_id: "map"
+    marker_scale: 0.2
+    marker_color: [1.0, 0.0, 0.0, 1.0]  # RGBA format (red)
