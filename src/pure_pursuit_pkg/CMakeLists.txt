@@ -35,9 +35,9 @@ include_directories(include
 # Creamos los ejecutables
 add_executable(pure_pursuit_node 
   src/pure_pursuit_node.cpp
-  )
+  ) 
 
-ament_target_dependencies(pure_pursuit 
+ament_target_dependencies(pure_pursuit_node  
   rclcpp 
   tf2_ros 
   nav_msgs 
@@ -54,10 +54,9 @@ install(TARGETS
 
 install(DIRECTORY 
   config 
-  launch
+  launch 
   racelines 
-  DESTINATION 
-  share/${PROJECT_NAME}
+  DESTINATION share/${PROJECT_NAME}
 )
 
 if(BUILD_TESTING)

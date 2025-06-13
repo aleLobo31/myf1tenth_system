@@ -1,7 +1,8 @@
 /**:
   ros__parameters:
-    csv_path : "f1tenth_ws/src/pure_pursuit_pkg/racelines/waypoints_odom_v0.csv"
-    odom_topic : "/odom"
-    min_distance : 0.1
+    csv_path: "/root/f1tenth_ws/src/pure_pursuit_pkg/racelines/waypoints.csv"  # Update this path
+    min_distance : 0.05
     prev_x : 0.0
     prev_y : 0.0
+    map_frame : "map"
+    car_frame : "base_link"

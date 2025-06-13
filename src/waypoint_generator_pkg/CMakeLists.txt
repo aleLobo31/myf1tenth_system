@@ -25,6 +25,8 @@ find_package(nav_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(visualization_msgs REQUIRED)
+find_package(tf2 REQUIRED)
+find_package(tf2_ros REQUIRED)
 
 
 # Include directories
@@ -46,6 +48,9 @@ add_executable(waypoint_visualizer_node
 ament_target_dependencies(waypoint_generator_node 
   rclcpp 
   nav_msgs
+  geometry_msgs
+  tf2
+  tf2_ros
 )
 
 ament_target_dependencies(waypoint_visualizer_node
