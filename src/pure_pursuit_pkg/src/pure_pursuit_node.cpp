@@ -173,7 +173,7 @@ void PurePursuit::get_closest_pathpoint()
         Eigen::Vector3d point_local = transform_to_car_frame(point);
 
         // Only consider points that are in front of the car and beyond lookahead distance
-        if (point_local[0] > 0 && distance_to_pose >= lookahead_dist && distance_to_pose < closest_distance)
+        if (distance_to_pose >= lookahead_dist && distance_to_pose < closest_distance)
         {            
             closest_distance = distance_to_pose;
             start_index = i;

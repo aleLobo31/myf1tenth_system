@@ -130,9 +130,13 @@ void ManualControlNode::joyCallback(const sensor_msgs::msg::Joy::SharedPtr joy) 
 
 void ManualControlNode::driveCallback(const ackermann_msgs::msg::AckermannDriveStamped::SharedPtr drive) {
     if (button_pressed_) {
-        drive->drive.speed *= drive_multiplier_;
-        ackermann_pub_->publish(*drive);
+        auto modified_drive = *drive;
+
+        modified_drive.drive.speed *= drive_multiplier_;
+        
+        RCLCPP_INFO(this->get_logger(), "Modified speed: %f (multiplier: %f)", 
+                    modified_drive.drive.speed, drive_multiplier_);
+
+        ackermann_pub_->publish(modified_drive);
     }
 }
-
-    

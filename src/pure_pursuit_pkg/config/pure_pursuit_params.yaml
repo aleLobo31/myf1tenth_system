@@ -1,15 +1,15 @@
 /**:
   ros__parameters:
-    lookahead_dist: 0.6
+    lookahead_dist: 0.3
     min_lookahead_dist: 0.33
     max_lookahead_dist: 1.0
     lookahead_ratio: 2.0
-    max_speed: 0.5
+    max_speed: 0.8
     kp: 0.5
-    max_steering_angle: 0.8
-    n_pathpoints: 42  
-    window_size: 10
-    csv_path: "/root/f1tenth_ws/src/pure_pursuit_pkg/racelines/waypoints_odom_v2.csv"
+    max_steering_angle: 0.8 # Antes 0.5
+    n_pathpoints: 41 # ?
+    window_size: 10 # ?
+    csv_path:  "/root/f1tenth_ws/src/pure_pursuit_pkg/racelines/salon_jaime_v1_waypoints.csv"
     map_frame: "map"
     car_frame: "base_link"
     odom_topic: "/odom"

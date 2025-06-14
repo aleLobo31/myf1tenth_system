@@ -1,7 +1,7 @@
 /**:
   ros__parameters:
-    csv_path: "/root/f1tenth_ws/src/pure_pursuit_pkg/racelines/waypoints.csv"  # Update this path
-    min_distance : 0.05
+    csv_path: "/root/f1tenth_ws/src/pure_pursuit_pkg/racelines/salon_jaime_v1_waypoints.csv"  # Update this path
+    min_distance : 0.1
     prev_x : 0.0
     prev_y : 0.0
     map_frame : "map"
