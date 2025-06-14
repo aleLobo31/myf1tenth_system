@@ -270,18 +270,21 @@ void PurePursuit::steering_angle_calculation()
     return;
 }
 
-void PurePursuit::speed_calculation()
+int PurePursuit::speed_calculation()
 {
     // Find the closest point to the car, and use the velocity index for that
-    int start_point = std::max(start_index - {window_size}/3, 0);
+    int start_point = std::max(start_index - (window_size / 3), 0);
     double shortest_distance = p2pdist(pathpoints[start_point].x, curr_pose.x, pathpoints[start_point].y, curr_pose.y);
-    int speed_i = 0;
-    for (start_point; start_point<(start_point + window_size); start_point++) 
+    int speed_i = start_point;
+
+    // Use a separate loop variable for iteration
+    for (int i = start_point; i < (start_point + window_size); i++) 
     {
-        if (p2pdist(pathpoints[start_point].x, curr_pose.x, pathpoints[start_point].y, curr_pose.y) <= shortest_distance) 
+        double distance = p2pdist(pathpoints[i].x, curr_pose.x, pathpoints[i].y, curr_pose.y);
+        if (distance <= shortest_distance) 
         {
-            shortest_distance = p2pdist(pathpoints.x[start_point], curr_pose.x, pathpoints.y[start_point], curr_pose.y);
-            speed_i = start_point;
+            shortest_distance = distance;
+            speed_i = i;
         }
     }
     return speed_i;

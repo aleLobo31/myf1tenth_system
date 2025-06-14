@@ -82,6 +82,8 @@ private:
     void graph_closest_pathpoint();
     void map2car();
     void steering_angle_calculation();
+    int speed_calculation();
+    double p2pdist(double &x1, double &x2, double &y1, double &y2);
 
     // Utility transforms
     Eigen::Matrix3d quaternionToMatrix(const geometry_msgs::msg::Quaternion& q);
