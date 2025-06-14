@@ -14,7 +14,7 @@ PurePursuit::PurePursuit() : Node("pure_pursuit_node")
     this->declare_parameter<double>("max_steering_angle", 0.7);
     this->declare_parameter<int>("n_pathpoints", 123);
     this->declare_parameter<int>("window_size", 25);
-    this->declare_parameter<std::string>("csv_path", "/sim_ws/src/pure_pursuit/racelines/waypoints_odom_3.csv");
+    this->declare_parameter<std::string>("csv_path", "/sim_ws/src/pure_pursuit/racelines/pathpoints_odom_3.csv");
     this->declare_parameter<std::string>("map_frame", "map");
     this->declare_parameter<std::string>("car_frame", "base_link");
     this->declare_parameter<std::string>("odom_topic", "/odom");
@@ -68,6 +68,12 @@ PurePursuit::PurePursuit() : Node("pure_pursuit_node")
 
     // We load the path into memory
     load_pathpoints2memory();
+}
+
+double PurePursuit::p2pdist(double &x1, double &x2, double &y1, double &y2) 
+{
+    double dist = sqrt(pow((x2 - x1), 2) + pow((y2 - y1), 2));
+    return dist;
 }
 
 int PurePursuit::load_pathpoints2memory()
@@ -245,9 +251,10 @@ void PurePursuit::steering_angle_calculation()
     {
         k = -max_steering_angle;
     }
-
+    
+    
     // Determine speed depending on the value of k
-    cmd.drive.speed = max_speed/(1 + k/max_steering_angle);  
+    cmd.drive.speed = pathpoints[speed_calculation()].v;
     std::cout << "Speed: " << cmd.drive.speed << std::endl;
 
     cmd.drive.steering_angle = k;
@@ -259,6 +266,23 @@ void PurePursuit::steering_angle_calculation()
     return;
 }
 
+void PurePursuit::speed_calculation()
+{
+    // Find the closest point to the car, and use the velocity index for that
+    int start_point = std::max(start_index - {window_size}/3, 0);
+    double shortest_distance = p2pdist(pathpoints[start_point].x, curr_pose.x, pathpoints[start_point].y, curr_pose.y);
+    int speed_i = 0;
+    for (start_point; start_point<(start_point + window_size); start_point++) 
+    {
+        if (p2pdist(pathpoints[start_point].x, curr_pose.x, pathpoints[start_point].y, curr_pose.y) <= shortest_distance) 
+        {
+            shortest_distance = p2pdist(pathpoints.x[start_point], curr_pose.x, pathpoints.y[start_point], curr_pose.y);
+            speed_i = start_point;
+        }
+    }
+    return speed_i;
+}
+
 void PurePursuit::odom_callback(const nav_msgs::msg::Odometry::ConstSharedPtr odom_msg)
 {
     // Get forward speed from odom
@@ -266,6 +290,9 @@ void PurePursuit::odom_callback(const nav_msgs::msg::Odometry::ConstSharedPtr od
         odom_msg->twist.twist.linear.x,
         odom_msg->twist.twist.linear.y
     );
+
+    // Calculate lookahead distance based on current speed
+    lookahead_dist = min(max(min_lookahead_dist, max_lookahead_dist * curr_vel / lookahead_ratio), max_lookahead_dist);
 
     // Cache current transform for this cycle
     try {

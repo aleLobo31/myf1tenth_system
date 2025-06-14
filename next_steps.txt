@@ -1,0 +1,2 @@
++ Tener la trayectoria óptima usando RACELINE OPTIMIZER
++ CSV Con punto(x, y) con Velocidad asociada. 
