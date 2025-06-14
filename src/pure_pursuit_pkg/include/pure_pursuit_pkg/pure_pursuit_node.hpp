@@ -28,10 +28,10 @@ public:
     // Required Structures
     struct PathPoint
     {
-        double x, y;
+        double x, y, v;
 
-        PathPoint() : x(0.0), y(0.0){}
-        PathPoint(double x, double y) : x(x), y(y){}
+        PathPoint() : x(0.0), y(0.0), v(0.0){}
+        PathPoint(double x, double y, double v) : x(x), y(y), v(v){}
     };
 
 private:

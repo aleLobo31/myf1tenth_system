@@ -90,29 +90,33 @@ int PurePursuit::load_pathpoints2memory()
     // Create a vector to hold PathPoints
     pathpoints.reserve(n_pathpoints);
 
-    std::string row, x_str, y_str;
+    std::string row, x_str, y_str, v_str;
 
     for(int i = 0; i < n_pathpoints; i++)
     {
-        // Read one line (x, y)
+        // Read one line (x, y, v)
         std::getline(csv, row, '\n');
         std::stringstream ss(row);
 
-        for(int j = 0; j < 2; j++)
+        for(int j = 0; j < 3; j++)
         {
-            // Extract x and y in two iterations
+            // Extract x, y and v in three iterations
             if(j == 0)
             {
                 std::getline(ss, x_str, ',');
             }
             else if (j == 1)
             {
-                std::getline(ss, y_str);
+                std::getline(ss, y_str, ',');
+            }
+            else if (j == 2)
+            {
+                std::getline(ss, v_str);
             }
         }
 
         // Push the new element into the vector
-        pathpoints.emplace_back(std::stod(x_str), std::stod(y_str));
+        pathpoints.emplace_back(std::stod(x_str), std::stod(y_str), std::stod(v_str));
     }
 
     // std::cout << "Elements: " << pathpoints[0].x << ", " << pathpoints[0].y << ", " << pathpoints[0].l << std::endl;
