@@ -1,4 +1,6 @@
 #include "reactive_follower_pkg/reactive_follower_node.hpp"
+#include <interfaces_pkg/msg/goal_point.hpp>
+
 
 ReactiveFollowerNode::ReactiveFollowerNode() : Node("reactive_follower") {
     
@@ -53,7 +55,8 @@ void ReactiveFollowerNode::preprocess_lidar(std::vector<float> &ranges) {
     float range = 0.0;
     float last_range = 0.0;
 
-    // Simply filter out readings beyond max distance
+    // Filter out readings beyond max distance
+    // Nan reading get the last valid measure
     for (size_t i = 0; i < ranges.size(); i++) 
     {
         range = ranges[i];
@@ -95,7 +98,7 @@ std::pair<size_t, size_t> ReactiveFollowerNode::find_max_gap(const std::vector<f
     size_t longest_gap = 0;
     size_t curr_gap = 0;
     for (size_t i = 0; i < ranges.size(); i++) {
-        if (ranges[i] < 0.5) {
+        if (ranges[i] < 0.3) {
             curr_gap = 0;
         } else {
             curr_gap++;

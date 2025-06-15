@@ -16,4 +16,5 @@ docker run -it --privileged --net=host \
     --volume=./src/reactive_follower_pkg:/root/f1tenth_ws/src/reactive_follower_pkg \
     --volume=./src/waypoint_generator_pkg:/root/f1tenth_ws/src/waypoint_generator_pkg \
     --volume=./src/pure_pursuit_pkg:/root/f1tenth_ws/src/pure_pursuit_pkg \
+    --volume=./src/interfaces_pkg:/root/f1tenth_ws/src/interfaces_pkg \
     f1tenth-system

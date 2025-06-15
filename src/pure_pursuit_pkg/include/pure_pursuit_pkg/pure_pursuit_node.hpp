@@ -20,6 +20,8 @@
 #include "ackermann_msgs/msg/ackermann_drive_stamped.hpp"
 #include "visualization_msgs/msg/marker.hpp"
 
+#include "interfaces_pkg/msg/goal_point.hpp"
+
 class PurePursuit : public rclcpp::Node
 {
 public:

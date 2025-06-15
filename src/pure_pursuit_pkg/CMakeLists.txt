@@ -26,6 +26,7 @@ find_package(nav_msgs REQUIRED)
 find_package(ackermann_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(visualization_msgs REQUIRED)
+find_package(interfaces_pkg REQUIRED)
 
 # Incluir Headers
 include_directories(include
@@ -44,6 +45,7 @@ ament_target_dependencies(pure_pursuit_node
   ackermann_msgs 
   geometry_msgs 
   visualization_msgs
+  interfaces_pkg
 )
 
 # Añadimos los ejecutables a la carpeta install

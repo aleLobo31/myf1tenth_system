@@ -300,6 +300,7 @@ void PurePursuit::odom_callback(const nav_msgs::msg::Odometry::ConstSharedPtr od
 
     // Calculate lookahead distance based on current speed
     lookahead_dist = std::min(std::max(min_lookahead_dist, max_lookahead_dist * curr_vel / lookahead_ratio), max_lookahead_dist);
+    RCLCPP_INFO(this->get_logger(), "Lookahead Distance: %.2f", lookahead_dist);
 
     // Cache current transform for this cycle
     try {
