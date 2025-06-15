@@ -15,8 +15,11 @@ public:
 private:
     // ROS Parameters
     std::string lidarscan_topic;
-    std::string gp_topic;
+    std::string goalpoint_topic;
     std::string drive_topic;
+    std::string laser_frame;
+    std::string car_frame;
+
     int bubble_radius;
     double max_speed;
     double min_speed;
@@ -32,6 +35,14 @@ private:
     double end_angle;
     double safety_distance;
     double min_gap;
+
+    std::string map_frame;
+    std::string car_frame;
+
+    // Transform handling
+    std::unique_ptr<tf2_ros::Buffer> tf_buffer_;
+    std::shared_ptr<tf2_ros::TransformListener> tf_listener_;
+    geometry_msgs::msg::TransformStamped current_transform_;
 
     // ROS communication
     rclcpp::Subscription<sensor_msgs::msg::LaserScan>::SharedPtr lidar_subscriber_;
@@ -55,11 +66,14 @@ private:
         //buscar gaps con nº minimo de indices y utilizando safety_distance
         //tf statica de baselink->laser
         //calculo de indice proximo con coordenadas transformadas
-    //void find_point_in_gaps(indice_pp, gaps)
+    //bool gp_in_gaps(indice_pp, gaps)
         //si indice_pp esta dentro de un gap, publicar commandos de pp
         //si no está en ninguno, buscar el gap más cercano(min dist a extremo sde gaps) 
         //y publicar logica existente
     
+    void pp_commands(const std::vector<float> &ranges, size_t gap_start, size_t gap_end);
+    void alternative_commands(const std::vector<float> &ranges, size_t gap_start, size_t gap_end);
+
     // Callback
     void goal_callback(const interfaces_pkg::msg::GoalPoint::ConstSharedPtr msg);
 };
