@@ -4,6 +4,7 @@
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/laser_scan.hpp>
 #include <ackermann_msgs/msg/ackermann_drive_stamped.hpp>
+#include <interfaces_pkg/msg/goal_point.hpp>
 #include <vector>
 #include <utility>
 #include <memory>
@@ -11,6 +12,15 @@
 class ReactiveFollowerNode : public rclcpp::Node {
 public:
     ReactiveFollowerNode();
+
+    Struct Gap {
+        size_t start;
+        size_t end;
+
+        Gap() : start(0.0), end(0.0){}
+        Gap(size_t start, size_t end)
+            : start(start), end(end){}
+    };
 
 private:
     // ROS Parameters
@@ -33,8 +43,9 @@ private:
     size_t end_index;
     double start_angle;
     double end_angle;
+    int pg_index;
     double safety_distance;
-    double min_gap;
+    size_t min_gap_size;
 
     std::string map_frame;
     std::string car_frame;
@@ -60,19 +71,18 @@ private:
         //si la velocidad es mayor que 0.7 calcular proporcionalmente safety_distance 
     int calculate_min_gap_size(double safety_distance); 
         // calculates minimum number of LiDAR beams for a safe gap
-    int point_to_lidar_index(double x, double y); 
+    int point_to_lidar_index(); 
         // converts goal point coordinates to LiDAR index
-    void find_gaps(const std::vector<float> &ranges, min gaps,safety_distance);
+    void find_gaps(struct gaps);
         //buscar gaps con nº minimo de indices y utilizando safety_distance
         //tf statica de baselink->laser
         //calculo de indice proximo con coordenadas transformadas
-    //bool gp_in_gaps(indice_pp, gaps)
+    bool gp_in_gaps(indice_pp, gaps)
         //si indice_pp esta dentro de un gap, publicar commandos de pp
         //si no está en ninguno, buscar el gap más cercano(min dist a extremo sde gaps) 
         //y publicar logica existente
     
-    void pp_commands(const std::vector<float> &ranges, size_t gap_start, size_t gap_end);
-    void alternative_commands(const std::vector<float> &ranges, size_t gap_start, size_t gap_end);
+    void alternative_commands(gaps);
 
     // Callback
     void goal_callback(const interfaces_pkg::msg::GoalPoint::ConstSharedPtr msg);

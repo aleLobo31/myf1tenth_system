@@ -17,9 +17,7 @@
 
 #include "rclcpp/rclcpp.hpp"
 #include "nav_msgs/msg/odometry.hpp"
-#include "ackermann_msgs/msg/ackermann_drive_stamped.hpp"
 #include "visualization_msgs/msg/marker.hpp"
-
 #include "interfaces_pkg/msg/goal_point.hpp"
 
 class PurePursuit : public rclcpp::Node
@@ -33,7 +31,7 @@ public:
         double x, y, v;
 
         PathPoint() : x(0.0), y(0.0), v(0.0){}
-        PathPoint(double x, double y, double v) : x(x), y(y), v(v){}
+        PathPoint(double x, double y, double v) : x(x), y(y), v(v){}>>
     };
 
 private:
@@ -59,6 +57,7 @@ private:
     double max_speed;
     double Kp;
     double max_steering_angle;
+    double::string goalpoint_topic;
 
     // Topics and Paths
     std::string csv_path;
@@ -70,7 +69,7 @@ private:
 
     // ROS2 Interfaces
     rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub_;
-    rclcpp::Publisher<ackermann_msgs::msg::AckermannDriveStamped>::SharedPtr ack_pub_;
+    rclcpp::Publisher<interfaces_pkg::msg::GoalPoint>::SharedPtr goal_pub_;
     rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr graph_pub_;
 
     // Tf2 Listener

@@ -1,9 +1,7 @@
 #include "reactive_follower_pkg/reactive_follower_node.hpp"
-#include <interfaces_pkg/msg/goal_point.hpp>
-
 
 ReactiveFollowerNode::ReactiveFollowerNode() : Node("reactive_follower") {
-    
+    latest_scan_msg_ = nullptr;
     // Declare and retrieve parameters
     this->declare_parameter("lidarscan_topic", "/scan");
     this->declare_parameter("drive_topic", "/drive");
@@ -33,10 +31,12 @@ ReactiveFollowerNode::ReactiveFollowerNode() : Node("reactive_follower") {
 
     // Initialize subscribers and publishers
     lidar_subscriber_ = create_subscription<sensor_msgs::msg::LaserScan>(
-        lidarscan_topic, 10, std::bind(&ReactiveFollowerNode::lidar_callback, this, std::placeholders::_1));
+        lidarscan_topic, 10, 
+        std::bind(&ReactiveFollowerNode::lidar_callback, this, std::placeholders::_1));
 
     goal_subscriber_ = create_subscription<interfaces_pkg::msg::GoalPoint>(
-        goalpoint_topic, 10, std::bind(&ReactiveFollowerNode::goal_callback, this, std::placeholders::_1));
+        goalpoint_topic, 10, 
+        std::bind(&ReactiveFollowerNode::goal_callback, this, std::placeholders::_1));
 
     drive_publisher_ =  create_publisher<ackermann_msgs::msg::AckermannDriveStamped>(drive_topic, 10);
 
@@ -64,6 +64,10 @@ ReactiveFollowerNode::ReactiveFollowerNode() : Node("reactive_follower") {
     RCLCPP_INFO(get_logger(), "<weight_steering>: %f", weight_steering);
 
     RCLCPP_INFO(get_logger(), "Reactive follower initialized");
+}
+
+void ReactiveFollowerNode::lidar_callback(const sensor_msgs::msg::LaserScan::ConstSharedPtr& scan_msg) {
+    latest_scan_msg_ = scan_msg;
 }
 
 void ReactiveFollowerNode::preprocess_lidar(std::vector<float> &ranges) {
@@ -110,7 +114,7 @@ void ReactiveFollowerNode::eliminate_bubble(std::vector<float> &ranges, size_t c
 }
 
 // returns safety distance based on speed
-double calculate_safety_distance(double speed){
+double ReactiveFollowerNode::calculate_safety_distance(double speed){
     if (speed < 0.7) {
         return 0.4; // Safety distance for low speeds
     } else {
@@ -118,13 +122,16 @@ double calculate_safety_distance(double speed){
     }
 }
     // Calculate the minimum number of LiDAR beams for a safe gap
-int ReactiveFollowerNode::calculate_min_gap_size(double safety_distance) {
+size_t ReactiveFollowerNode::calculate_min_gap_size(double safety_distance) {
     double alpha = 2*(atan2((0.3 / 2) / safety_distance)); //geometry cacl
-    int min_gap = static_cast<int>(std::ceil((alpha * 450) / (2 * M_PI))); // Number of scans in alpha radians (450 scans in 360º)
+    size_t min_gap = static_cast<size_t>(std::ceil((alpha * 450) / (2 * M_PI))); // Number of scans in alpha radians (450 scans in 360º)
     return min_gap;
 }
 
-int ReactiveFollowerNode::point_to_lidar_index(int min_gap){
+int ReactiveFollowerNode::point_to_lidar_index(){
+    
+    double x = goal_msg_->x;
+    double y = goal_msg_->y;
     try {
         // Get car's goal in laser frame
         current_transform_ = tf_buffer_->lookupTransform(
@@ -141,102 +148,124 @@ int ReactiveFollowerNode::point_to_lidar_index(int min_gap){
         );
         return;
     }
-    double x = current_transform_.transform.translation.x;
-    double y = current_transform_.transform.translation.y;
+    x = current_transform_.transform.translation.x;
+    y = current_transform_.transform.translation.y;
         // Calculate the angle from the x and y coordinates
     double angle = std::atan2(y, x); // angle in radians, CCW from x-axis
 
-    // Normalize angle to [0, 2*pi)
-    if (angle < 0) {
-        angle += 2 * M_PI;
-    }
+    if (angle < 0) angle += 2*M_PI;
+    int idx = std::round(angle * 450.0/(2*M_PI));
+    return std::clamp(idx, 0, 449);
+}    
 
-    // Calculate the corresponding goal_point index
-    // 450 scans over 360 degrees, so each scan covers (2*pi/450) radians
-    int gp_index = static_cast<int>(std::round(angle * 450 / (2 * M_PI)));
-
-    // Clamp index to valid range [0, 449]
-    if (gp_index < 0) gp_index = 0;
-    if (gp_index > 449) gp_index = 449;
-
-    return gp_index;
-} 
-
-void ReactiveFollowerNode::find_gaps(onst std::vector<float> &ranges, min gaps,safety_distance) {
-    size_t min_gap = 0;
-    size_t longest_gap = 0;
-    size_t curr_gap = 0;
-    for (size_t i = 0; i < ranges.size(); i++) {
-        if (ranges[i] < 0.3) {
-            curr_gap = 0;
-        } else {
-            curr_gap++;
-            if (curr_gap > longest_gap) {  // Update the largest gap
-                min_gap = i - curr_gap;
-                longest_gap = curr_gap;
-            }
+std::vector<Gap> ReactiveFollowerNode::find_gaps(const std::vector<float> &ranges, size_t min_gap, double safety_distance) {
+    // Find gaps in the LiDAR scan data based on the safety distance and minimum gap size
+    // Return a vector of Gap structs containing start and end indices of each gap
+    std::vector<Gap> gaps;
+    bool in_gap = false;
+    size_t start = 0;
+    for (size_t i = 0; i < ranges.size(); ++i) {
+        if (ranges[i] > safety_distance) {
+            if (!in_gap) { start = i; in_gap = true; }
+        } else if (in_gap) {
+            size_t end = i-1;
+            if (end - start +1 >= min_gap) gaps.push_back({start,end});
+            in_gap = false;
         }
     }
-    size_t max_gap = min_gap + longest_gap;
-    return std::make_pair(min_gap, max_gap);
-}
-
-bool ReactiveFollowerNode::gp_in_gaps(onst std::vector<float> &ranges, min gaps,safety_distance){
-    //si indice_pp esta dentro de un gap, publicar commandos de pp
-    //si no está en ninguno, buscar el gap más cercano(min dist a extremo sde gaps) 
-    //y publicar logica existente
+    if (in_gap) {
+        size_t end = ranges.size()-1;
+        if (end - start +1 >= min_gap) gaps.push_back({start,end});
+    }
+    return gaps;
 
 }
-void ReactiveFollowerNode::pp_commands(const std::vector<float> &ranges, size_t gap_start, size_t gap_end) {
-    //get values from goal_suscriber
-    float steering_angle = ;
-    double speed
+
+bool ReactiveFollowerNode::gp_in_gaps(const std::vector<Gap> &gaps){
+    //Si indice_pp esta dentro de un gap, return true. si no está en ninguno, return false
+    for (auto &gap : gaps) {
+        if (gp_index >= static_cast<int>(gap.start) && gp_index <= static_cast<int>(gap.end)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+std::pair<double, double> ReactiveFollowerNode::alternative_commands(
+    const std::vector<Gap>& gaps, 
+    const std::vector<float>& ranges, 
+    int gp_index) 
+{
+    // Find the gap edge (start or end) closest to gp_index
+    int best_idx = -1;
+    int min_dist = std::numeric_limits<int>::max();
+    for (const auto& gap : gaps) {
+        int dist_start = std::abs(static_cast<int>(gap.start) - gp_index);
+        int dist_end = std::abs(static_cast<int>(gap.end) - gp_index);
+        if (dist_start < min_dist) {
+            min_dist = dist_start;
+            best_idx = gap.start;
+        }
+        if (dist_end < min_dist) {
+            min_dist = dist_end;
+            best_idx = gap.end;
+        }
+    }
+    if (best_idx == -1) best_idx = 0; // fallback
+
+    double best_angle = (best_idx) * ((360.0 / 450) * (M_PI / 180.0));
+    double steering_angle = - (best_angle - ((3 * M_PI)/2));
+    double speed = std::min(std::abs(max_speed * (weight_speed * ranges[best_idx] - weight_steering * std::abs(steering_angle))), max_speed);
+
+    return std::make_pair(steering_angle, speed);
 }
 
 
-void ReactiveFollowerNode::alternative_commands(const std::vector<float> &ranges, size_t gap_start, size_t gap_end) {
-   // Convert back to full scan index for angle calculation
-    size_t full_best_idx = best_idx + start_index;
-    float best_angle = (full_best_idx) * ((360.0 / 450) * (M_PI / 180.0));
-    float steering_angle = - (best_angle - ((3 * M_PI)/2));
-    double speed = std::min(std::abs(max_speed * (weight_speed * ranges[full_best_idx] - weight_steering * std::abs(steering_angle))), max_speed);
-}
+void ReactiveFollowerNode::goal_callback(const interfaces_pkg::msg::GoalPoint::ConstSharedPtr& goal_msg) {
 
+    goal_msg_ = goal_msg; // store
 
-void ReactiveFollowerNode::goal_callback(const sensor_msgs::msg::LaserScan::ConstSharedPtr scan_msg) {
-    std::vector<float> ranges = scan_msg->ranges;
-    std::vector<float> cropped_ranges(end_index - start_index + 1);
-    
-    // Get only the front section
-    for (size_t i = 0; i < cropped_ranges.size(); ++i) {
-        cropped_ranges[i] = ranges[i + start_index];
+    if (!latest_scan_msg_) {
+    RCLCPP_WARN(get_logger(), "No LiDAR data yet, skipping goal");
+    return;
     }
 
-    //preprocess_lidar(cropped_ranges);
+    std::vector<float> ranges = latest_scan_msg_->ranges;
+    std::vector<float> cropped_ranges(end_index - start_index + 1);
+    if (!gp_in_gaps(gaps)) {
+        auto [alt_steering_angle, alt_speed] = alternative_commands(gaps, cropped_ranges, gp_index);
+        steering_angle = alt_steering_angle;
+        speed = alt_speed;
+        RCLCPP_INFO(get_logger(), "Alternative commands.");
+    } else {
+        RCLCPP_INFO(get_logger(), "Pure Pursuit commands.");
+    }
+    preprocess_lidar(cropped_ranges);
     size_t closest_idx = find_closest_point(cropped_ranges);
     eliminate_bubble(cropped_ranges, closest_idx, bubble_radius);
     
-    safety_distance = calculate_safety_distance();
-    min_gap = calculate_min_gap_size();
-    pg_index = point_to_lidar_index();
+    double speed = goal_msg->v;
+    double steering_angle = goal_msg->s;
 
-    find_gaps(cropped_ranges, min_gap, safety_distance)
+    safety_distance = calculate_safety_distance(speed);
+    min_gap_size = calculate_min_gap_size(safety_distance);
+    gp_index = point_to_lidar_index();
+
+    std::vector<Gap> gaps = find_gaps(cropped_ranges, min_gap_size, safety_distance);
     
-    if gp_in_gaps(gaps, min_gap, safety_distance) {
-        pp_commands(cropped_ranges, gap_start, gap_end);
-        RCLCPP_INFO(get_logger(), "Pure Pursuit commands.");
-    } else {
-        alternative_commands(cropped_ranges, gap_start, gap_end);
+    if (!gp_in_gaps(gaps)) {
+        auto [steering_angle, speed] = alternative_commands(gaps);
         RCLCPP_INFO(get_logger(), "Alternative commands.");
+    } else {
+        RCLCPP_INFO(get_logger(), "Pure Pursuit commands.");
     }
- 
 
     RCLCPP_INFO(get_logger(), "close index: %zu", closest_idx);
-    RCLCPP_INFO(get_logger(), "Velocity: %zu", speed);
+    RCLCPP_INFO(get_logger(), "Velocity: %f", speed);
     RCLCPP_INFO(get_logger(), "Steering angle: %f", steering_angle);
 
     auto drive_msg = ackermann_msgs::msg::AckermannDriveStamped();
-    drive_msg.drive.speed = std::max(spd, min_speed);
+    drive_msg.drive.speed = std::max(speed, min_speed);
     drive_msg.drive.steering_angle = steering_angle;
     drive_publisher_->publish(drive_msg);
 }

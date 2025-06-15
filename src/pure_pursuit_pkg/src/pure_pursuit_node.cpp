@@ -1,6 +1,5 @@
 #include "pure_pursuit_pkg/pure_pursuit_node.hpp"
 
-
 PurePursuit::PurePursuit() : Node("pure_pursuit_node")
 {
     // Establish some private variables as parameters
@@ -10,7 +9,6 @@ PurePursuit::PurePursuit() : Node("pure_pursuit_node")
     this->declare_parameter<double>("lookahead_ratio", 8.0);
     this->declare_parameter<double>("max_speed", 4.0);
     this->declare_parameter<double>("Kp", 0.3);
-    
     this->declare_parameter<double>("max_steering_angle", 0.7);
     this->declare_parameter<int>("n_pathpoints", 123);
     this->declare_parameter<int>("window_size", 25);
@@ -18,7 +16,7 @@ PurePursuit::PurePursuit() : Node("pure_pursuit_node")
     this->declare_parameter<std::string>("map_frame", "map");
     this->declare_parameter<std::string>("car_frame", "base_link");
     this->declare_parameter<std::string>("odom_topic", "/odom");
-    this->declare_parameter<std::string>("drive_topic", "/drive");
+    this->declare_parameter<std::string>("goalpoint_topic", "/goalpoint");
 
     // Retrieve parameter values
     lookahead_dist = this->get_parameter("lookahead_dist").as_double();
@@ -34,12 +32,12 @@ PurePursuit::PurePursuit() : Node("pure_pursuit_node")
     map_frame = this->get_parameter("map_frame").as_string();
     car_frame = this->get_parameter("car_frame").as_string();
     odom_topic = this->get_parameter("odom_topic").as_string();
-    ack_topic = this->get_parameter("drive_topic").as_string();
+    goalpoint_topic  = this->get_parameter("goalpoint_topic").as_string();
 
     RCLCPP_INFO(this->get_logger(), "Pure Pursuit Node has started.");
     RCLCPP_INFO(this->get_logger(), "CSV Path: %s", csv_path.c_str());
     RCLCPP_INFO(this->get_logger(), "Odom Topic: %s", odom_topic.c_str());
-    RCLCPP_INFO(this->get_logger(), "Drive Topic: %s", ack_topic.c_str());
+    RCLCPP_INFO(this->get_logger(), "Goal Point Topic: %s", goalpoint_topic.c_str());
     RCLCPP_INFO(this->get_logger(), "Map Frame: %s", map_frame.c_str());    
     RCLCPP_INFO(this->get_logger(), "Car Frame: %s", car_frame.c_str());
     RCLCPP_INFO(this->get_logger(), "Lookahead Distance: %f", lookahead_dist);
@@ -56,8 +54,11 @@ PurePursuit::PurePursuit() : Node("pure_pursuit_node")
     graph_topic = "visualization_marker";
     start_index = 0;
 
-    odom_sub_ = this->create_subscription<nav_msgs::msg::Odometry>(odom_topic, 100, std::bind(&PurePursuit::odom_callback, this, std::placeholders::_1));
-    ack_pub_ = this->create_publisher<ackermann_msgs::msg::AckermannDriveStamped>(ack_topic, 10);
+    odom_sub_ = this->create_subscription<nav_msgs::msg::Odometry>(
+        odom_topic, 100,
+        std::bind(&PurePursuit::odom_callback, this, std::placeholders::_1));
+    goal_pub_ = this->create_publisher<interfaces_pkg::msg::GoalPoint>(
+        goalpoint_topic, 10);    
     graph_pub_ = this->create_publisher<visualization_msgs::msg::Marker>(graph_topic, 10);
 
     // Buffer para guardar Transformaciones entre Coordinate Frames
@@ -243,8 +244,6 @@ void PurePursuit::map2car()
 
 void PurePursuit::steering_angle_calculation()
 {
-    auto cmd = ackermann_msgs::msg::AckermannDriveStamped();
-
     // Calculate the Curvature (or Steering Angle) that connects to the Closest Point (expressed in Car Frame)
     float k =  Kp * (2 * v_local[1]) / std::pow(std::sqrt(std::pow(v_local[0], 2) + std::pow(v_local[1], 2)), 2);
 
@@ -256,17 +255,19 @@ void PurePursuit::steering_angle_calculation()
         k = -max_steering_angle;
     }
     
-    
-    // Determine speed depending on the value of k
-    cmd.drive.speed = pathpoints[speed_calculation()].v;
-    std::cout << "Speed: " << cmd.drive.speed << std::endl;
+    // Build a GoalPoint message
+    interfaces_pkg::msg::GoalPoint goal;
+    // the typical fields might be `x`, `y`, `v` (speed), `s` (steering)
+    goal.x = v_global[0];                // global target x
+    goal.y = v_global[1];                // global target y
+    goal.v = pathpoints[speed_calculation()].v;                    // desired speed
+    goal.s = k;                          // desired steering curvature/angle
 
-    cmd.drive.steering_angle = k;
-    std::cout << "Steering Angle: " << cmd.drive.steering_angle << "\n" <<  "Speed: "  << cmd.drive.speed << std::endl;
+    RCLCPP_DEBUG(this->get_logger(),
+        "Publishing GoalPoint: (%.2f, %.2f) v=%.2f, s=%.2f",
+        goal.x, goal.y, goal.v, goal.s);
 
-    // Command the car
-    ack_pub_->publish(cmd);
-    
+    goal_pub_->publish(goal);
     return;
 }
 
