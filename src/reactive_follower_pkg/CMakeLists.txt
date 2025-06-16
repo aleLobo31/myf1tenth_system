@@ -23,6 +23,8 @@ find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(ackermann_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
+find_package(interfaces_pkg REQUIRED)
+
 
 # Include directories
 include_directories(
@@ -44,6 +46,8 @@ ament_target_dependencies(reactive_follower_node
   geometry_msgs 
   ackermann_msgs 
   nav_msgs
+  interfaces_pkg
+
 )
 
 # Install targets

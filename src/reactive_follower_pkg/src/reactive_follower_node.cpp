@@ -115,10 +115,10 @@ void ReactiveFollowerNode::eliminate_bubble(std::vector<float> &ranges, size_t c
 
 // returns safety distance based on speed
 double ReactiveFollowerNode::calculate_safety_distance(double speed){
-    if (speed < 0.7) {
+    if (speed < 0.8) {
         return 0.4; // Safety distance for low speeds
     } else {
-        return 0.4 + (speed - 0.7) * 0.3; // Proportional increase for higher speeds
+        return 0.4 + (speed - 0.8) * 0.3; // Proportional increase for higher speeds
     }
 }
     // Calculate the minimum number of LiDAR beams for a safe gap
@@ -232,14 +232,12 @@ void ReactiveFollowerNode::goal_callback(const interfaces_pkg::msg::GoalPoint::C
 
     std::vector<float> ranges = latest_scan_msg_->ranges;
     std::vector<float> cropped_ranges(end_index - start_index + 1);
-    if (!gp_in_gaps(gaps)) {
-        auto [alt_steering_angle, alt_speed] = alternative_commands(gaps, cropped_ranges, gp_index);
-        steering_angle = alt_steering_angle;
-        speed = alt_speed;
-        RCLCPP_INFO(get_logger(), "Alternative commands.");
-    } else {
-        RCLCPP_INFO(get_logger(), "Pure Pursuit commands.");
+
+    // Get only the front section
+    for (size_t i = 0; i < cropped_ranges.size(); ++i) {
+        cropped_ranges[i] = ranges[i + start_index];
     }
+
     preprocess_lidar(cropped_ranges);
     size_t closest_idx = find_closest_point(cropped_ranges);
     eliminate_bubble(cropped_ranges, closest_idx, bubble_radius);
@@ -254,7 +252,9 @@ void ReactiveFollowerNode::goal_callback(const interfaces_pkg::msg::GoalPoint::C
     std::vector<Gap> gaps = find_gaps(cropped_ranges, min_gap_size, safety_distance);
     
     if (!gp_in_gaps(gaps)) {
-        auto [steering_angle, speed] = alternative_commands(gaps);
+        auto [alt_steering_angle, alt_speed] = alternative_commands(gaps, cropped_ranges, gp_index);
+        steering_angle = alt_steering_angle;
+        speed = alt_speed;
         RCLCPP_INFO(get_logger(), "Alternative commands.");
     } else {
         RCLCPP_INFO(get_logger(), "Pure Pursuit commands.");
