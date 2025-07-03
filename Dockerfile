@@ -49,26 +49,26 @@ RUN wget https://github.com/chriskohlhoff/asio/archive/asio-1-12-2.tar.gz && \
 WORKDIR /root/f1tenth_ws/src
 
 # Install VESC Drivers
-RUN git clone https://github.com/ros-drivers/transport_drivers.git && \
-    git clone -b foxy https://github.com/f1tenth/vesc.git
+RUN git clone https://github.com/ros-drivers/transport_drivers.git
+#    git clone -b foxy https://github.com/f1tenth/vesc.git
    
 # Install LIDAR Drivers
 RUN git clone https://github.com/rudislabs/ldlidar_stl_ros2.git
 
 # Install IMU
-RUN git clone https://github.com/JaimeG-ELC/razor_imu_ros2.git
+#RUN git clone https://github.com/JaimeG-ELC/razor_imu_ros2.git
 
 
 #Install Particle Filter repo
-RUN git clone -b foxy-devel https://github.com/f1tenth/particle_filter.git
+# RUN git clone -b foxy-devel https://github.com/f1tenth/particle_filter.git
 
-WORKDIR /root/f1tenth_ws/src/particle_filter
-RUN apt-get update && apt-get install -y python3-dev build-essential && \
-    pip3 install cython && \
-    git clone -b foxy-devel https://github.com/f1tenth/range_libc.git
+# WORKDIR /root/f1tenth_ws/src/particle_filter
+# RUN apt-get update && apt-get install -y python3-dev build-essential && \
+#     pip3 install cython && \
+#     git clone -b foxy-devel https://github.com/f1tenth/range_libc.git
 
-WORKDIR /root/f1tenth_ws/src/particle_filter/range_libc/pywrapper
-RUN chmod +x compile.sh && ./compile.sh
+# WORKDIR /root/f1tenth_ws/src/particle_filter/range_libc/pywrapper
+# RUN chmod +x compile.sh && ./compile.sh
 
 WORKDIR /root/f1tenth_ws
 
@@ -88,6 +88,9 @@ RUN apt install -y ros-foxy-slam-toolbox
 
 #Install RVIZ2
 RUN apt install -y ros-foxy-rviz2
+
+RUN rm -f /opt/ros/foxy/lib/libzstd.so.1
+RUN apt-get update && apt-get install --reinstall -y zstd
 
 SHELL ["/bin/bash", "-c"]
 

@@ -17,4 +17,6 @@ docker run -it --privileged --net=host \
     --volume=./src/waypoint_generator_pkg:/root/f1tenth_ws/src/waypoint_generator_pkg \
     --volume=./src/pure_pursuit_pkg:/root/f1tenth_ws/src/pure_pursuit_pkg \
     --volume=./src/interfaces_pkg:/root/f1tenth_ws/src/interfaces_pkg \
+    --volume=./src/imu_pkg:/root/f1tenth_ws/src/imu_pkg \
+    --volume=./src/vesc:/root/f1tenth_ws/src/vesc \
     f1tenth-system

@@ -43,6 +43,7 @@ ament_target_dependencies(tf_publisher_node
   geometry_msgs
   tf2
   tf2_ros
+  sensor_msgs
 )
 
 # Install targets

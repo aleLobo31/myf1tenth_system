@@ -158,6 +158,12 @@ def generate_launch_description():
         name='static_baselink_to_laser',
         arguments=['0.2', '0', '0.1', '-1.57', '0', '0', 'base_link', 'laser']
     )
+    static_tf_baselink_imu_node = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='static_baselink_to_laser',
+        arguments=['0.2', '0', '0.05', '0', '0', '0', 'imu', 'base_link']
+    )
     safety_node = Node(
         package='safety_pkg',
         executable='safety_node',
@@ -178,7 +184,7 @@ def generate_launch_description():
         )
 
     # finalize
-    #ld.add_action(tf_publisher_node)
+    ld.add_action(tf_publisher_node)
     ld.add_action(joy_node)
     ld.add_action(manual_control_node)
     ld.add_action(ackermann_to_vesc_node)
@@ -187,5 +193,6 @@ def generate_launch_description():
     ld.add_action(ldlidar_stl_ros2)
     ld.add_action(razor_imu_ros2)
     ld.add_action(static_tf_baselink_laser_node)
+    ld.add_action(static_tf_baselink_imu_node)
     
     return ld
