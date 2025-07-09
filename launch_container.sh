@@ -19,4 +19,5 @@ docker run -it --privileged --net=host \
     --volume=./src/interfaces_pkg:/root/f1tenth_ws/src/interfaces_pkg \
     --volume=./src/imu_pkg:/root/f1tenth_ws/src/imu_pkg \
     --volume=./src/vesc:/root/f1tenth_ws/src/vesc \
+    --volume=./src/state_estimation_pkg:/root/f1tenth_ws/src/state_estimation_pkg \
     f1tenth-system
